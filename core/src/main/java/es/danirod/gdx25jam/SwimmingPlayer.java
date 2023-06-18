@@ -13,8 +13,8 @@ import com.badlogic.gdx.utils.Scaling;
 
 public class SwimmingPlayer extends Image implements Disposable {
 
-    public static final float OFFSET_X = 200f;
-    public static final float OFFSET_Y = 60f;
+    public static final float OFFSET_X = 265f;
+    public static final float OFFSET_Y = 40f;
 
     private Texture texture;
 
@@ -26,7 +26,7 @@ public class SwimmingPlayer extends Image implements Disposable {
 
     public SwimmingPlayer() {
         texture = new Texture(Gdx.files.internal("swimming.png"));
-        TextureRegion[][] regions = TextureRegion.split(texture, 300, 100);
+        TextureRegion[][] regions = TextureRegion.split(texture, texture.getWidth(), texture.getHeight() / 2);
         this.regions = new TextureRegion[] { regions[0][0], regions[1][0] };
         updateRegion();
         setOrigin(OFFSET_X, OFFSET_Y);

@@ -15,17 +15,12 @@ public class FirstScreen implements Screen {
 
     private Stage stage;
 
-    private ShapeRenderer shaper;
-
     @Override
     public void show() {
-        shaper = new ShapeRenderer();
-        shaper.setAutoShapeType(true);
         stage = new Stage();
         stage.setViewport(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         player = new Player();
         stage.addActor(player);
-        stage.setDebugAll(true);
         player.setScale(0.5f);
     }
 
@@ -36,14 +31,6 @@ public class FirstScreen implements Screen {
 
         stage.act();
         stage.draw();
-
-        shaper.setProjectionMatrix(stage.getCamera().combined);
-
-        shaper.begin();
-        shaper.setColor(Color.WHITE);
-        shaper.line(-1000, 0, 1000, 0);
-        shaper.line(0, -1000, 0, 1000);
-        shaper.end();
 
     }
 

@@ -24,6 +24,12 @@ public class Player extends Group implements Disposable {
     public void act(float delta) {
         super.act(delta);
 
+        if (Math.random() < 0.01f) {
+            Bubble b = new Bubble();
+            b.setPosition(0, 0);
+            addActor(b);
+        }
+
         gravitateToCursor(delta);
     }
 
@@ -75,7 +81,7 @@ public class Player extends Group implements Disposable {
     }
 
     void switchToActor(Actor actor) {
-        clear();
+        removeActor(currentActor);
         addActor(actor);
         setSize(actor.getWidth(), actor.getHeight());
         currentActor = actor;
