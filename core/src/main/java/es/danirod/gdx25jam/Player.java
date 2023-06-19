@@ -46,13 +46,17 @@ public class Player extends Group implements Disposable {
     Circle sMouseCircle = new Circle();
     Circle sCenterCircle = new Circle();
     int count = 0;
+
     boolean isCloseToMouse() {
         getScreenCenter(sCenter);
 
         float cursorX = Gdx.input.getX(), cursorY = Gdx.input.getY();
 
-        sMouseCircle.set(cursorX, cursorY, 5f);
-        sCenterCircle.set(sCenter.x, sCenter.y, 5f);
+        boolean isSwimming = currentActor == swimmingPlayer;
+        float circleRadius = isSwimming ? 5f : 10f;
+
+        sMouseCircle.set(cursorX, cursorY, circleRadius);
+        sCenterCircle.set(sCenter.x, sCenter.y, circleRadius);
         return sCenterCircle.overlaps(sMouseCircle);
     }
 
@@ -62,7 +66,7 @@ public class Player extends Group implements Disposable {
             .set(Gdx.input.getX(), Gdx.input.getY())
             .sub(sAuxSpeedVector)
             .nor()
-            .scl(60f * delta);
+            .scl(120f * delta);
         if (sSpeedVector.x < 0) {
             currentActor.setScaleX(-1);
         } else {

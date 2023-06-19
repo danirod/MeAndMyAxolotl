@@ -4,15 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
 
-public class StandingPlayer extends AnimatedImage implements Disposable {
+public class Algae extends AnimatedImage implements Disposable {
 
-    public StandingPlayer() {
+    public Algae() {
         super(
             Orientation.HORIZONTAL,
-            new Texture(Gdx.files.internal("stand.png")),
-            0.5f
+            new Texture(Gdx.files.internal("algae.png")),
+            1f
         );
-        setOrigin(50, 80);
     }
 
     @Override
