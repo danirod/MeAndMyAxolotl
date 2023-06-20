@@ -2,6 +2,7 @@ package es.danirod.gdx25jam;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -18,6 +19,17 @@ public class Player extends Group implements Disposable {
         swimmingPlayer.setPosition(-swimmingPlayer.getOriginX(), -swimmingPlayer.getHeight() + swimmingPlayer.getOriginY());
         standingPlayer.setPosition(-standingPlayer.getOriginX(), -standingPlayer.getHeight() + standingPlayer.getOriginY());
         switchToActor(swimmingPlayer);
+    }
+
+    void getBoundingBox(Rectangle out) {
+        Vector2 vec = Pools.Vectors.obtain();
+        vec.set(currentActor.getX(), currentActor.getY());
+        localToParentCoordinates(vec);
+        out.setPosition(vec);
+        vec.set(currentActor.getWidth(), currentActor.getHeight());
+        localToParentCoordinates(vec);
+        out.setSize(vec.x, vec.y);
+        Pools.Vectors.free(vec);
     }
 
     @Override
