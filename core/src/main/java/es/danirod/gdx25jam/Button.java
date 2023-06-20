@@ -6,9 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
-
-import java.util.Arrays;
+import com.badlogic.gdx.utils.Pools;
 
 public class Button extends Image {
 
@@ -28,8 +26,8 @@ public class Button extends Image {
     }
 
     void checkCollision() {
-        Rectangle mine = Pools.Rectangles.obtain();
-        Rectangle other = Pools.Rectangles.obtain();
+        Rectangle mine = Pools.obtain(Rectangle.class);
+        Rectangle other = Pools.obtain(Rectangle.class);
         mine.set(getX(), getY(), getWidth(), getHeight());
         player.getBoundingBox(other);
         System.out.println("mine: " + mine + " - other: " + other);
@@ -44,6 +42,6 @@ public class Button extends Image {
                 isTouching = false;
             }
         }
-        Pools.Rectangles.freeAll(Array.with(mine, other));
+        Pools.freeAll(Array.with(mine, other));
     }
 }

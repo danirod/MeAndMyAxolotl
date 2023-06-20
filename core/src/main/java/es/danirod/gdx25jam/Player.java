@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Pools;
 
 public class Player extends Group implements Disposable {
 
@@ -22,14 +23,14 @@ public class Player extends Group implements Disposable {
     }
 
     void getBoundingBox(Rectangle out) {
-        Vector2 vec = Pools.Vectors.obtain();
+        Vector2 vec = Pools.obtain(Vector2.class);
         vec.set(currentActor.getX(), currentActor.getY());
         localToParentCoordinates(vec);
         out.setPosition(vec);
         vec.set(currentActor.getWidth(), currentActor.getHeight());
         localToParentCoordinates(vec);
         out.setSize(vec.x, vec.y);
-        Pools.Vectors.free(vec);
+        Pools.free(Vector2.class);
     }
 
     @Override
