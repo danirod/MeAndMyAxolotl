@@ -1,14 +1,26 @@
-package es.danirod.gdx25jam;
+package es.danirod.gdx25jam.actor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Pools;
+
+import es.danirod.gdx25jam.JamGame;
+import es.danirod.gdx25jam.actions.ShakeAction;
 
 public class Axolotl extends AnimatedImage {
 
     // public static final float OFFSET_X = 265f;
     
     // public static final float OFFSET_Y = 40f;
+	
+	int stunnedCombo = 0;
+	
+	Actor stunnedStar;
 
     public Axolotl() {
         super(
@@ -21,10 +33,49 @@ public class Axolotl extends AnimatedImage {
         setOrigin(91, 19);
     }
     
+    public void stun() {
+    	addAction(Actions.sequence(
+    			Actions.run(() -> startStunEffect()),
+    			Actions.delay(3f),
+    			Actions.run(() -> stopStunEffect())
+		));
+    }
+    
+    void startStunEffect() {
+    	if (stunnedCombo++ == 0) {
+    		stunnedStar = new Image(JamGame.assets.get("star.png", Texture.class));
+    		stunnedStar.setPosition(getX() + getOriginX(), getY() + getHeight());
+    		stunnedStar.addAction(
+        			Actions.forever(
+    					Actions.sequence(
+    						Actions.moveBy(-2 * stunnedStar.getWidth(), 0, 0.1f),
+    						Actions.moveBy(4 * stunnedStar.getWidth(), 0, 0.2f),
+    						Actions.moveBy(-2 * stunnedStar.getWidth(), 0, 0.1f)
+    					)
+    				)
+    		);
+        	getStage().addActor(stunnedStar);
+    	}
+    	addAction(ShakeAction.shake(0.3f));
+    }
+    
+    void stopStunEffect() {
+    	if (--stunnedCombo == 0) {
+    		stunnedStar.remove();
+    	}
+    }
+    
     @Override
     public void act(float delta) {
     	super.act(delta);
-    	swimUpToMouse(delta);
+    	if (stunnedCombo == 0) {
+    		swimUpToMouse(delta);
+    	}
+    }
+    
+    void getHeadBox(Rectangle out) {
+    	float cx = getX() + getOriginX(), cy = getY() + getOriginY();
+    	out.set(cx - 15, cy - 15, 30, 30);
     }
     
     void swimUpToMouse(float delta) {

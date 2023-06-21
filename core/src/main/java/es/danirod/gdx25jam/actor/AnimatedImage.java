@@ -1,4 +1,4 @@
-package es.danirod.gdx25jam;
+package es.danirod.gdx25jam.actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

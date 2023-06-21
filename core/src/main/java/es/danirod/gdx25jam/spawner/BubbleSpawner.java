@@ -1,7 +1,9 @@
-package es.danirod.gdx25jam;
+package es.danirod.gdx25jam.spawner;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+
+import es.danirod.gdx25jam.actor.Bubble;
 
 public class BubbleSpawner extends Actor {
 	

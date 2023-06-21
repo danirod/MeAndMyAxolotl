@@ -1,4 +1,4 @@
-package es.danirod.gdx25jam;
+package es.danirod.gdx25jam.spawner;
 
 import java.util.stream.Stream;
 
@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Align;
+
+import es.danirod.gdx25jam.actor.Alga;
 
 public class AlgaSpawner extends Actor {
 

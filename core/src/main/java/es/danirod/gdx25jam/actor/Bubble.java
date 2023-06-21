@@ -1,9 +1,11 @@
-package es.danirod.gdx25jam;
+package es.danirod.gdx25jam.actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
+import es.danirod.gdx25jam.JamGame;
 
 public class Bubble extends Image {
 

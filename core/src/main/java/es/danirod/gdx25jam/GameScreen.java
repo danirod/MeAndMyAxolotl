@@ -3,6 +3,7 @@ package es.danirod.gdx25jam;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -10,21 +11,45 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import es.danirod.gdx25jam.actor.Axolotl;
+import es.danirod.gdx25jam.actor.RepeatingSolid;
+import es.danirod.gdx25jam.actor.Turtle;
+import es.danirod.gdx25jam.spawner.AlgaSpawner;
+import es.danirod.gdx25jam.spawner.BubbleSpawner;
+import es.danirod.gdx25jam.spawner.EggSpawner;
+import es.danirod.gdx25jam.spawner.TrashSpawner;
+
 public class GameScreen implements Screen {
+	
+	public static GameScreen INSTANCE;
 	
 	private Stage stage;
 	
 	Group bubbles = new Group();
 	
-	public GameScreen() {
+	private int score;
+	
+	private Label scoreLabel;
 		
+	public int getScore() {
+		return score;
+	}
+	
+	public void pickEgg() {
+		Gdx.app.log("GameScreen", "Yay, you picked an egg");
+		score++;
+		scoreLabel.setText("SCORE: " + score);
 	}
 	
 	@Override
 	public void show() {
+		score = 0;
+		INSTANCE = this;
+		
 		stage = new Stage(new ScreenViewport());
 		stage.addListener(new DebugInputListener());	
 		Gdx.input.setInputProcessor(stage);
@@ -52,13 +77,32 @@ public class GameScreen implements Screen {
 		stage.addActor(xo);
 		xo.setPosition(20, 20);
 		
+		var eggsGroup = new Group();
+		stage.addActor(eggsGroup);
+		
 		var algasFront = new Group();
 		stage.addActor(algasFront);
+		
+		var trashGroup = new Group();
+		stage.addActor(trashGroup);
+		var trashSpawner = new TrashSpawner(trashGroup, xo, this);
+		stage.addActor(trashSpawner);
+		
+		var turtle = new Turtle();
+		turtle.setPosition(400, 300);
+		stage.addActor(turtle);
 		
 		BubbleSpawner spawner = new BubbleSpawner(bubbles, xo);
 		stage.addActor(spawner);
 		AlgaSpawner algaspawn = new AlgaSpawner(algasBack, algasFront);
 		stage.addActor(algaspawn);
+		EggSpawner eggSpawn = new EggSpawner(eggsGroup, xo);
+		stage.addActor(eggSpawn);
+		
+		scoreLabel = new Label("SCORE: 0", JamGame.labelStyle);
+		scoreLabel.setColor(Color.BLACK);
+		scoreLabel.setPosition(10, Gdx.graphics.getHeight() - 50);
+		stage.addActor(scoreLabel);
 	}
 
 	@Override
