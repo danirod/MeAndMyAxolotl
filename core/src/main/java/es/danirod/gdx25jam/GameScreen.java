@@ -57,6 +57,7 @@ public class GameScreen implements Screen {
 		var water = new Image(JamGame.assets.get("water.png", Texture.class));
 		water.setY(40);
 		water.setHeight(Gdx.graphics.getHeight() - 120);
+		water.getColor().a = 0.5f;
 		stage.addActor(water);
 		
 		var floor = new RepeatingSolid(JamGame.assets.get("floor.png"));
@@ -68,6 +69,7 @@ public class GameScreen implements Screen {
 		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"));
 		sky.setAlign(Align.bottom);
 		sky.setY(Gdx.graphics.getHeight() - 80);
+		sky.getColor().a = 0.5f;
 		stage.addActor(sky);
 		
 		var algasBack = new Group();
@@ -88,8 +90,8 @@ public class GameScreen implements Screen {
 		var trashSpawner = new TrashSpawner(trashGroup, xo, this);
 		stage.addActor(trashSpawner);
 		
-		var turtle = new Turtle();
-		turtle.setPosition(400, 300);
+		turtle = new Turtle(xo);
+		turtle.switchToCalm();
 		stage.addActor(turtle);
 		
 		BubbleSpawner spawner = new BubbleSpawner(bubbles, xo);
@@ -104,6 +106,8 @@ public class GameScreen implements Screen {
 		scoreLabel.setPosition(10, Gdx.graphics.getHeight() - 50);
 		stage.addActor(scoreLabel);
 	}
+	
+	Turtle turtle;
 
 	@Override
 	public void render(float delta) {
@@ -149,9 +153,17 @@ public class GameScreen implements Screen {
 		
 		@Override
 		public boolean keyDown(InputEvent event, int keycode) {
+			if (keycode == Input.Keys.F1) {
+				turtle.switchToAlert();
+				return true;
+			}
 			if (keycode == Input.Keys.F3) {
 				debug = !debug;
 				stage.setDebugAll(debug);
+				return true;
+			}
+			if (keycode == Input.Keys.F5) {
+				show();
 				return true;
 			}
 			return false;
