@@ -34,16 +34,23 @@ public class GameScreen implements Screen {
 	
 	private int score;
 	
-	private Label scoreLabel;
+	private Label pendingEggsCount;
 		
 	public int getScore() {
 		return score;
 	}
 	
 	public void pickEgg() {
-		Gdx.app.log("GameScreen", "Yay, you picked an egg");
 		score++;
-		scoreLabel.setText("SCORE: " + score);
+		if (score == 15) {
+			// TODO: Go to the ending cinematic.
+		}
+		updateEggsCounter();
+	}
+	
+	void updateEggsCounter() {
+		String count = "TO PICK: " + (15 - score);
+		pendingEggsCount.setText(count);
 	}
 	
 	@Override
@@ -102,10 +109,11 @@ public class GameScreen implements Screen {
 		EggSpawner eggSpawn = new EggSpawner(eggsGroup, xo);
 		stage.addActor(eggSpawn);
 		
-		scoreLabel = new Label("SCORE: 0", JamGame.labelStyle);
-		scoreLabel.setColor(Color.BLACK);
-		scoreLabel.setPosition(10, Gdx.graphics.getHeight() - 50);
-		stage.addActor(scoreLabel);
+		pendingEggsCount = new Label("", JamGame.labelStyle);
+		pendingEggsCount.setAlignment(Align.topLeft);
+		pendingEggsCount.setPosition(10, Gdx.graphics.getHeight() - 10);
+		updateEggsCounter();
+		stage.addActor(pendingEggsCount);
 	}
 	
 	Turtle turtle;
