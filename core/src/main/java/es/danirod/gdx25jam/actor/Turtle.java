@@ -179,6 +179,19 @@ public class Turtle extends Group {
 	
 	int consecutiveAttacks = 0;
 
+	/**
+	 * This function will choose whether the turtle can attack the axolotl
+	 * based on whether the axolotl is vertically closer to the atxolotl.
+	 * If the axolotl is far from the turtle, it will reposition instead.
+	 */
+	TurtleState prepareToAttack() {
+		if (Math.abs(getY() - player.getY()) < 100) {
+			return TurtleState.Attack;
+		} else {
+			return TurtleState.Reposition;
+		}
+	}
+	
 	TurtleState nextState() {
 		double i = Math.random();
 		switch (currentState) {
@@ -189,12 +202,8 @@ public class Turtle extends Group {
 			return TurtleState.Calm;
 		case Alert:
 		case Reposition:
-			if (i < 0.5f - consecutiveAttacks * 0.2f) {
-				if (Math.random() < 0.5f) {
-					return TurtleState.Attack;
-				} else {
-					return TurtleState.Reposition;
-				}
+			if (i < 0.6f - consecutiveAttacks * 0.2f) {
+				return prepareToAttack();
 			} else {
 				return TurtleState.Calming;
 			}
