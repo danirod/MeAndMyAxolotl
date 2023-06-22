@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 
+import es.danirod.gdx25jam.GameScreen;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.actions.CommonActions;
 
@@ -81,6 +82,7 @@ public class Turtle extends Group {
 	}
 
 	public void switchToAlert() {
+		consecutiveAttacks = 0;
 		// Switch to the near turtle sprite.
 		clearChildren();
 		var turtle = new NearTurtle();
@@ -141,6 +143,7 @@ public class Turtle extends Group {
 
 	public void switchToAttack() {
 		Gdx.app.log("Turtle", "Switching to ATTACK");
+		consecutiveAttacks++;
 		getColor().a = 1;
 		float x = player.getX() + player.getOriginX() / 2, y = player.getY() - player.getOriginY();
 		float currentX = getX(), currentY = getY();
@@ -173,23 +176,28 @@ public class Turtle extends Group {
 		
 		Pools.freeAll(Array.with(axo, turtle));
 	}
+	
+	int consecutiveAttacks = 0;
 
 	TurtleState nextState() {
 		double i = Math.random();
 		switch (currentState) {
 		case Calm:
-			if (i < 0.5f) {
+			if (i < 0.5f + GameScreen.INSTANCE.getScore() * 0.02f) {
 				return TurtleState.Alert;
 			}
 			return TurtleState.Calm;
 		case Alert:
 		case Reposition:
-			if (i < 0.2f) {
-				return TurtleState.Attack;
-			} else if (i < 0.4f) {
+			if (i < 0.5f - consecutiveAttacks * 0.2f) {
+				if (Math.random() < 0.5f) {
+					return TurtleState.Attack;
+				} else {
+					return TurtleState.Reposition;
+				}
+			} else {
 				return TurtleState.Calming;
 			}
-			return TurtleState.Reposition;
 		case Calming:
 			return TurtleState.Calm;
 		case Attack:
