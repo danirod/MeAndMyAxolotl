@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import es.danirod.gdx25jam.JamGame;
+import es.danirod.gdx25jam.actions.CommonActions;
 
 public class Turtle extends Group {
 
@@ -68,13 +69,7 @@ public class Turtle extends Group {
 		addAction(
 			Actions.sequence(
 				Actions.parallel(
-					Actions.repeat(3,
-						Actions.sequence(
-							Actions.moveBy(0, -50, 0.5f, Interpolation.sineOut),
-							Actions.moveBy(0, 100, 1f, Interpolation.sine),
-							Actions.moveBy(0, -50, 0.5f, Interpolation.sineIn)
-						)
-					),
+					Actions.repeat(3, CommonActions.verticalWave(50, 2f)),
 					Actions.moveBy(-200, 0, 2f, Interpolation.circleOut)
 				),
 				Actions.run(() -> {
@@ -100,20 +95,13 @@ public class Turtle extends Group {
 				Actions.sequence(
 						Actions.parallel(
 								Actions.moveTo(horizontal, vertical, 2f, Interpolation.circle),
-								Actions.repeat(3,
-									Actions.sequence(
-										Actions.moveBy(0, -50, 0.5f, Interpolation.sineOut),
-										Actions.moveBy(0, 100, 1f, Interpolation.sine),
-										Actions.moveBy(0, -50, 0.5f, Interpolation.sineIn)
-									)
-								)
-						),
+								Actions.repeat(3, CommonActions.verticalWave(50, 2f)),
 						Actions.run(() -> {
 							switchState();
 						})
 				)
 				
-		);
+		));
 	}
 
 	void switchToAttack() {
