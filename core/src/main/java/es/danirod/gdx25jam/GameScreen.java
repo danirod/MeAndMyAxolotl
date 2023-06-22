@@ -163,35 +163,6 @@ public class GameScreen implements Screen {
 				show();
 				return true;
 			}
-			if (keycode == Input.Keys.F8) {
-				turtle.clearActions();
-				turtle.currentState = TurtleState.Calm;
-				turtle.switchToCalm();
-				return true;
-			}
-			if (keycode == Input.Keys.F9) {
-				turtle.clearActions();
-				turtle.currentState = TurtleState.Alert;
-				turtle.switchToAlert();
-				return true;
-			}
-			if (keycode == Input.Keys.F10) {
-				turtle.clearActions();
-				turtle.currentState = TurtleState.Reposition;
-				turtle.switchToReposition();
-				return true;
-			}
-			if (keycode == Input.Keys.F11) {
-				turtle.clearActions();
-				turtle.currentState = TurtleState.Calming;
-				turtle.switchToCalming();
-				return true;
-			}
-			if (keycode == Input.Keys.F12) {
-				turtle.clearActions();
-				turtle.currentState = TurtleState.Attack;
-				turtle.switchToAttack();
-			}
 			return false;
 		}
 		
