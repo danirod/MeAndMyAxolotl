@@ -45,8 +45,12 @@ public class Axolotl extends Group {
 		setHealth(getHealth() - 1);
 	}
 	
-	boolean shouldSwimReversed() {
-		return health <= 2;
+	boolean hasRightBody() {
+		return health >= 3;
+	}
+	
+	boolean hasLeftBody() {
+		return health >= 1;
 	}
 	
     public Axolotl() {
@@ -144,6 +148,15 @@ public class Axolotl extends Group {
     			return;
     		}
     		float angle = (int) distance.angleDeg();
+    		if (angle > 180) {
+    			angle -= 360;
+    		}
+    		if (!hasRightBody() && angle < 0) {
+    			angle *= 0.1f;
+    		}
+    		if (!hasLeftBody() && angle > 0) {
+    			angle *= 0.1f;
+    		}
     		setRotation(angle);
     		if (angle >= 90 && angle <= 270) {
     			setScaleX(-1);
