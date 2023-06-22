@@ -175,8 +175,8 @@ public class Axolotl extends Group {
     		if (getY() < 40 - getOriginY()) {
     			setY(40 - getOriginY());
     		}
-    		if (getY() > Gdx.graphics.getHeight() - getHeight() + getOriginY() - 80) {
-    			setY(Gdx.graphics.getHeight() - getHeight() + getOriginY() - 80);
+    		if (getY() > Gdx.graphics.getHeight() - getHeight() + getOriginY() - 120) {
+    			setY(Gdx.graphics.getHeight() - getHeight() + getOriginY() - 120);
     		}
     	} finally {
     		Pools.free(mouse);
