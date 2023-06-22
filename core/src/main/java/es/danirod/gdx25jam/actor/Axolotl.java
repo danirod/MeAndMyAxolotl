@@ -99,7 +99,7 @@ public class Axolotl extends Group {
     void startStunEffect() {
     	if (stunnedCombo++ == 0) {
     		stunnedStar = new Image(JamGame.assets.get("star.png", Texture.class));
-    		stunnedStar.setPosition(getX() + getOriginX(), getY() + getHeight());
+    		stunnedStar.setPosition(getX() + getOriginX(), getY() + body.getHeight());
     		stunnedStar.addAction(
         			Actions.forever(
     					Actions.sequence(
