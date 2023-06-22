@@ -144,6 +144,11 @@ public class Axolotl extends Group {
     		distance = Pools.obtain(Vector2.class);
     		mouse.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
     		axolotl.set(getX() + getOriginX(), getY() + getOriginY());
+    		
+    		if (mouse.x < body.getRight() + 100) {
+    			mouse.x = body.getRight() + 100;
+    		}
+    		
     		distance.set(mouse).sub(axolotl);
     		if (distance.len() < 10) {
     			return;
