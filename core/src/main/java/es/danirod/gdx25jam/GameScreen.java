@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import es.danirod.gdx25jam.actor.Axolotl;
 import es.danirod.gdx25jam.actor.RepeatingSolid;
 import es.danirod.gdx25jam.actor.Turtle;
+import es.danirod.gdx25jam.actor.Turtle.TurtleState;
 import es.danirod.gdx25jam.spawner.AlgaSpawner;
 import es.danirod.gdx25jam.spawner.BubbleSpawner;
 import es.danirod.gdx25jam.spawner.EggSpawner;
@@ -153,10 +154,6 @@ public class GameScreen implements Screen {
 		
 		@Override
 		public boolean keyDown(InputEvent event, int keycode) {
-			if (keycode == Input.Keys.F1) {
-				turtle.switchToAlert();
-				return true;
-			}
 			if (keycode == Input.Keys.F3) {
 				debug = !debug;
 				stage.setDebugAll(debug);
@@ -165,6 +162,35 @@ public class GameScreen implements Screen {
 			if (keycode == Input.Keys.F5) {
 				show();
 				return true;
+			}
+			if (keycode == Input.Keys.F8) {
+				turtle.clearActions();
+				turtle.currentState = TurtleState.Calm;
+				turtle.switchToCalm();
+				return true;
+			}
+			if (keycode == Input.Keys.F9) {
+				turtle.clearActions();
+				turtle.currentState = TurtleState.Alert;
+				turtle.switchToAlert();
+				return true;
+			}
+			if (keycode == Input.Keys.F10) {
+				turtle.clearActions();
+				turtle.currentState = TurtleState.Reposition;
+				turtle.switchToReposition();
+				return true;
+			}
+			if (keycode == Input.Keys.F11) {
+				turtle.clearActions();
+				turtle.currentState = TurtleState.Calming;
+				turtle.switchToCalming();
+				return true;
+			}
+			if (keycode == Input.Keys.F12) {
+				turtle.clearActions();
+				turtle.currentState = TurtleState.Attack;
+				turtle.switchToAttack();
 			}
 			return false;
 		}

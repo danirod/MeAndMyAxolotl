@@ -5,29 +5,80 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Pools;
 
 import es.danirod.gdx25jam.JamGame;
+import es.danirod.gdx25jam.actions.CommonActions;
 import es.danirod.gdx25jam.actions.ShakeAction;
+import es.danirod.gdx25jam.actor.AnimatedImage.Orientation;
 
-public class Axolotl extends AnimatedImage {
+public class Axolotl extends Group {
 
-    // public static final float OFFSET_X = 265f;
-    
-    // public static final float OFFSET_Y = 40f;
+    int health = 4;
 	
 	int stunnedCombo = 0;
 	
 	Actor stunnedStar;
-
+	
+	Actor body, patLB, patRB, patLF, patRF;
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public void setHealth(int health) {
+		if (health < 0)
+			health = 0;
+		if (health > 4)
+			health = 4;
+		this.health = health;
+		patLB.setVisible(health >= 1);
+		patLF.setVisible(health >= 2);
+		patRB.setVisible(health >= 3);
+		patRF.setVisible(health >= 4);
+	}
+	
+	public void hit() {
+		setHealth(getHealth() - 1);
+	}
+	
+	boolean shouldSwimReversed() {
+		return health <= 2;
+	}
+	
     public Axolotl() {
-        super(
-            Orientation.VERTICAL,
-            JamGame.assets.get("axolotl.png"),
-            0.5f
-        );
+    	patLF = new Image(JamGame.assets.get("axolotl/lf.png", Texture.class));
+    	patLF.setPosition(49, 27);
+    	patLF.addAction(CommonActions.gravitySwimArm());
+    	patLF.setOrigin(24, 1);
+    	addActor(patLF);
+    	
+    	patLB = new Image(JamGame.assets.get("axolotl/lb.png", Texture.class));
+    	patLB.setPosition(22, 24);
+    	patLB.setOrigin(17, 1);
+    	patLB.addAction(CommonActions.gravitySwimArm());
+    	addActor(patLB);
+    	
+    	body = new AnimatedImage(Orientation.VERTICAL, JamGame.assets.get("axolotl/body.png", Texture.class), 0.5f) { };
+    	body.setPosition(6, 11);
+    	addActor(body);
+    	
+    	patRF = new Image(JamGame.assets.get("axolotl/rf.png", Texture.class));
+    	patRF.setPosition(55, 2);
+    	patRF.setOrigin(23, 11);
+    	patRF.addAction(CommonActions.gravitySwimArm());
+    	addActor(patRF);
+    	
+    	patRB = new Image(JamGame.assets.get("axolotl/rb.png", Texture.class));
+    	patRB.setPosition(22, 2);
+    	patRB.setOrigin(17, 13);
+    	patRB.addAction(CommonActions.gravitySwimArm());
+    	addActor(patRB);
+    	
+    	
         // setScale(2f);
         // setOrigin(OFFSET_X, OFFSET_Y);
         setOrigin(91, 19);

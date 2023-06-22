@@ -46,6 +46,11 @@ public class JamGame extends Game {
     	assets.load("star.png", Texture.class);
     	assets.load("default.fnt", BitmapFont.class);
     	assets.load("farturtle.png", Texture.class);
+    	assets.load("axolotl/body.png", Texture.class);
+    	assets.load("axolotl/lf.png", Texture.class);
+    	assets.load("axolotl/lb.png", Texture.class);
+    	assets.load("axolotl/rf.png", Texture.class);
+    	assets.load("axolotl/rb.png", Texture.class);
     	assets.finishLoading();
     	
     	labelStyle = new LabelStyle();
