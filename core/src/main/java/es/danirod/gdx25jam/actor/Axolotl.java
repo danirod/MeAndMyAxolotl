@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Pools;
 
+import es.danirod.gdx25jam.GameScreen;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.actions.CommonActions;
 import es.danirod.gdx25jam.actions.ShakeAction;
@@ -158,12 +159,13 @@ public class Axolotl extends Group {
     			angle *= 0.1f;
     		}
     		setRotation(angle);
-    		if (angle >= 90 && angle <= 270) {
+    		if (angle >= 90 || angle <= -90) {
     			setScaleX(-1);
     		} else {
     			setScaleX(1);
     		}
-    		distance.nor().scl(500f * delta);
+    		float speed = 500f + 30 * GameScreen.INSTANCE.getScore();
+    		distance.nor().scl(speed * delta);
     		moveBy(0, distance.y);
     		if (getY() < 40 - getOriginY()) {
     			setY(40 - getOriginY());

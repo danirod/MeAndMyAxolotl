@@ -31,7 +31,7 @@ public class TrashSpawner extends Actor {
 	@Override
 	public void act(float delta) {
 		int score = screen.getScore();
-		if (trash.getChildren().size < score && Math.random() < 0.02f) {
+		if (trash.getChildren().size < score && Math.random() < 0.03f) {
 			Texture t;
 			if (Math.random() < 0.5f) {
 				t = JamGame.assets.get("trash1.png", Texture.class);
