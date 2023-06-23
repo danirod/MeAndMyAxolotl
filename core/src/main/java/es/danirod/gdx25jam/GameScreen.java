@@ -5,16 +5,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import es.danirod.gdx25jam.actions.CommonActions;
 import es.danirod.gdx25jam.actor.Axolotl;
 import es.danirod.gdx25jam.actor.Egg;
 import es.danirod.gdx25jam.actor.PendingEggs;
@@ -50,8 +52,8 @@ public class GameScreen implements Screen {
 						Actions.run(() -> {
 							score++;
 							updateEggsCounter();
-							if (score == 1) {
-								// TODO: Trigger final sequence.
+							if (score == 15) {
+								triggerFinalSequence();
 							}
 						}),
 						Actions.removeActor()
@@ -59,9 +61,25 @@ public class GameScreen implements Screen {
 		);
 	}
 	
+	void triggerFinalSequence() {
+		Action forward = Actions.parallel(
+			Actions.moveBy(Gdx.graphics.getWidth() / 3, 0, 1f, Interpolation.sineOut),
+			CommonActions.verticalWave(10f, 1f)
+		);
+		Action moveBack = Actions.scaleTo(-1f, 1f);
+		Action grow = Actions.scaleTo(-3f, 3f, 1f, Interpolation.sineIn);
+		Action goBack = Actions.moveBy(-Gdx.graphics.getWidth(), 0, 1f, Interpolation.sineIn);
+		Action wave = CommonActions.verticalWave(20f, 1f);
+		Action growAndGoBack = Actions.parallel(grow, goBack, wave);
+		Action animation = Actions.sequence(forward, moveBack, growAndGoBack);
+		xo.addAction(animation);
+	}
+	
 	void updateEggsCounter() {
 		eggsHUD.update(15 - score);
 	}
+	
+	private Axolotl xo;
 	
 	@Override
 	public void show() {
@@ -93,7 +111,7 @@ public class GameScreen implements Screen {
 		var algasBack = new Group();
 		stage.addActor(algasBack);
 		
-		var xo = new Axolotl();
+		xo = new Axolotl();
 		stage.addActor(xo);
 		xo.setPosition(20, 20);
 		
@@ -171,6 +189,13 @@ public class GameScreen implements Screen {
 		
 		@Override
 		public boolean keyDown(InputEvent event, int keycode) {
+			if (keycode == Input.Keys.F1) {
+				xo.setScale(1);
+				xo.setPosition(20, 20);
+			}
+			if (keycode == Input.Keys.F2) {
+				triggerFinalSequence();
+			}
 			if (keycode == Input.Keys.F3) {
 				debug = !debug;
 				stage.setDebugAll(debug);
