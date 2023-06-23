@@ -7,6 +7,19 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 
 public class CommonActions {
+	
+	/** An action to use for things like turtles or u-boot when they are far. */
+	public static Action farSwim(float delta, float duration) {
+		Action initialWait = Actions.delay(MathUtils.random(2f, 4f));
+		Action swing1 = Actions.moveBy(delta / 2, 0, duration / 2f);
+		Action appear = Actions.alpha(0.75f, duration / 2f);
+		Action swing2 = Actions.moveBy(delta / 2, 0, duration / 2f);
+		Action dissapear = Actions.fadeOut(duration / 2f);
+		
+		Action swingAndAppear = Actions.parallel(swing1, appear);
+		Action swingAndDissapear = Actions.parallel(swing2, dissapear);
+		return Actions.sequence(initialWait, swingAndAppear, swingAndDissapear);
+	}
 
 	public static Action horizontalWave(float radius, float duration) {
 		var a1 = Actions.moveBy(-radius, 0, duration / 4, Interpolation.sineOut);

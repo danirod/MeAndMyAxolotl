@@ -58,27 +58,9 @@ public class Turtle extends Group {
 		
 		// Start a swimming sequence.
 		addAction(Actions.sequence(
-				// Wait a little.
-				Actions.delay(MathUtils.random(2f, 4f)),
-				
-				// Fade in and swim.
-				Actions.parallel(
-						Actions.alpha(0.75f, 4f),
-						Actions.moveBy(Gdx.graphics.getWidth() / 3, 0, 4f)
-				),
-				
-				// Continue swimming and fade out.
-				Actions.parallel(
-						Actions.fadeOut(4f),
-						Actions.moveBy(Gdx.graphics.getWidth() / 3, 0, 4f)
-				),
-				
-				// Switch to the next state.
-				Actions.delay(MathUtils.random(2f, 4f)), Actions.run(() -> {
-					switchState();
-				})
+				CommonActions.farSwim(Gdx.graphics.getWidth() / 1.5f, 8f),
+				Actions.run(() -> switchState())
 		));
-
 		addActor(turtle);
 	}
 

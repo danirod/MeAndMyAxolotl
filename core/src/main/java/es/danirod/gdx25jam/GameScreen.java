@@ -26,6 +26,7 @@ import es.danirod.gdx25jam.spawner.BubbleSpawner;
 import es.danirod.gdx25jam.spawner.CoralSpawner;
 import es.danirod.gdx25jam.spawner.EggSpawner;
 import es.danirod.gdx25jam.spawner.TrashSpawner;
+import es.danirod.gdx25jam.spawner.UbootSpawner;
 
 public class GameScreen implements Screen {
 	
@@ -111,6 +112,10 @@ public class GameScreen implements Screen {
 		var algasBack = new Group();
 		stage.addActor(algasBack);
 		
+		// This group is used by far away entities that are swimming (turtles, boats...)
+		var swimBack = new Group();
+		stage.addActor(swimBack);
+		
 		xo = new Axolotl();
 		stage.addActor(xo);
 		xo.setPosition(20, 20);
@@ -136,6 +141,8 @@ public class GameScreen implements Screen {
 		stage.addActor(algaspawn);
 		EggSpawner eggSpawn = new EggSpawner(eggsGroup, xo);
 		stage.addActor(eggSpawn);
+		UbootSpawner ubootSpawn = new UbootSpawner(swimBack);
+		stage.addActor(ubootSpawn);
 		
 		eggsHUD = new PendingEggs();
 		eggsHUD.setPosition(5, Gdx.graphics.getHeight() - eggsHUD.getHeight() - 5);
