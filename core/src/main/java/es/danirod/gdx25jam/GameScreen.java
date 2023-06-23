@@ -19,7 +19,7 @@ import es.danirod.gdx25jam.actor.Axolotl;
 import es.danirod.gdx25jam.actor.RepeatingSolid;
 import es.danirod.gdx25jam.actor.Turtle;
 import es.danirod.gdx25jam.actor.Turtle.TurtleState;
-import es.danirod.gdx25jam.spawner.AlgaSpawner;
+import es.danirod.gdx25jam.spawner.CoralSpawner;
 import es.danirod.gdx25jam.spawner.BubbleSpawner;
 import es.danirod.gdx25jam.spawner.EggSpawner;
 import es.danirod.gdx25jam.spawner.TrashSpawner;
@@ -68,13 +68,13 @@ public class GameScreen implements Screen {
 		water.getColor().a = 0.5f;
 		stage.addActor(water);
 		
-		var floor = new RepeatingSolid(JamGame.assets.get("floor.png"));
+		var floor = new RepeatingSolid(JamGame.assets.get("floor.png"), 200);
 		floor.setY(0);
 		stage.addActor(floor);
 		
 		stage.addActor(bubbles);
 		
-		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"));
+		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"), 200);
 		sky.setAlign(Align.bottom);
 		sky.setY(Gdx.graphics.getHeight() - 80);
 		sky.getColor().a = 0.5f;
@@ -102,9 +102,9 @@ public class GameScreen implements Screen {
 		turtle.switchToCalm();
 		stage.addActor(turtle);
 		
-		BubbleSpawner spawner = new BubbleSpawner(bubbles, xo);
+		BubbleSpawner spawner = new BubbleSpawner(bubbles, xo, 86, 7);
 		stage.addActor(spawner);
-		AlgaSpawner algaspawn = new AlgaSpawner(algasBack, algasFront);
+		CoralSpawner algaspawn = new CoralSpawner(algasBack, algasFront, floor.getHeight());
 		stage.addActor(algaspawn);
 		EggSpawner eggSpawn = new EggSpawner(eggsGroup, xo);
 		stage.addActor(eggSpawn);

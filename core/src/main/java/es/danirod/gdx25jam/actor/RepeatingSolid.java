@@ -2,32 +2,82 @@ package es.danirod.gdx25jam.actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+/** An image that scrolls and repeats by itself. */
 public class RepeatingSolid extends Image {
-	
-	private int textureWidth;
-	
-	public RepeatingSolid(Texture texture) {
-		super(texture);
-		textureWidth = texture.getWidth();
-		setPosition(0, 0);
+
+	/** Traveling speed. */
+	float speed;
+
+	/** Base texture, non repeating. */
+	Texture texture;
+
+	/** Region, repeated. */
+	TextureRegion region;
+
+	public RepeatingSolid(Texture texture, float speed) {
+		assertWrap(texture);
+
+		this.speed = speed;
+		this.texture = texture;
+		this.region = new TextureRegion(texture);
+		this.region.setRegionWidth(closestWidth());
+
+		setDrawable(new TextureRegionDrawable(this.region));
 		setHeight(texture.getHeight());
-		setWidth(computeDesiredWidth());
+		setWidth(this.region.getRegionWidth());
 	}
-	
-	private float computeDesiredWidth() {
-		float width = Gdx.graphics.getWidth();
-		float desiredWidth = (textureWidth) * (1 + (float) Math.floor((width / textureWidth) + 1));
-		System.out.println(desiredWidth);
-		return desiredWidth;
+
+	/** Fails if the provided image is not mirroring. */
+	void assertWrap(Texture texture) {
+		if (texture.getUWrap() == TextureWrap.ClampToEdge) {
+			throw new IllegalArgumentException("Texture should be mirrored");
+		}
 	}
-	
+
+	/** The width that the region should have so that it can scroll without gaps. */
+	int closestWidth() {
+		int textureWidth = regionWidth();
+		float repeats = Gdx.graphics.getWidth() / textureWidth;
+		int totalRepeats = MathUtils.ceil(repeats);
+		totalRepeats += (requiresDoubleWidth() ? 2 : 1);
+		return textureWidth * totalRepeats;
+	}
+
+	/** The effective region of the texture. */
+	int regionWidth() {
+		return this.texture.getWidth() * (requiresDoubleWidth() ? 2 : 1);
+	}
+
+	/** Whether the mirrored seams would require double width. */
+	boolean requiresDoubleWidth() {
+		// For a perfect seam, if the texture uses MirroredRepeat it is needed
+		// to double the width. This means that the scroll needs to treat the
+		// texture as if it was double width. Not required in normal mirror.
+		return this.texture.getUWrap() == TextureWrap.MirroredRepeat;
+	}
+
 	@Override
 	public void act(float delta) {
-		moveBy(-delta * 200, 0);
+		super.act(delta);
+		scrollEntity(delta);
+		maybeResetPosition();
+	}
+
+	/** Moves the entity to the left. */
+	void scrollEntity(float delta) {
+		float movement = speed * delta;
+		moveBy(-movement, 0);
+	}
+
+	/** If a full iteration of the texture was traveled, move back to zero. */
+	void maybeResetPosition() {
+		int textureWidth = regionWidth();
 		while (getX() <= -textureWidth) {
 			moveBy(textureWidth, 0);
 		}

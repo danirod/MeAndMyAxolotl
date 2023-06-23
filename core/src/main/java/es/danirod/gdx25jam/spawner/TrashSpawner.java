@@ -11,15 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import es.danirod.gdx25jam.GameScreen;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.actor.Axolotl;
-import es.danirod.gdx25jam.actor.TrashCan;
+import es.danirod.gdx25jam.actor.Rubbish;
 
 public class TrashSpawner extends Actor {
 
 	Group trash;
 	
 	Axolotl player;
-	
-	Random rand = new Random();
 	
 	GameScreen screen;
 	
@@ -31,30 +29,23 @@ public class TrashSpawner extends Actor {
 	
 	@Override
 	public void act(float delta) {
-		int score = screen.getScore();
-		if (trash.getChildren().size < score && Math.random() < 0.03f) {
-			Texture t;
-			// Can't use modern switches because of Java 11. Sheeet.
-			switch (MathUtils.random(0, 3)) {
-			case 0:
-				t = JamGame.assets.get("trash1.png", Texture.class);
-				break;
-			case 1:
-				t = JamGame.assets.get("trash2.png", Texture.class);
-				break;
-			case 2:
-				t = JamGame.assets.get("trash3.png", Texture.class);
-				break;
-			default:
-				// Should Not Happen
-				t = null;
-			}
-			if (t != null) {
-				TrashCan can = new TrashCan(t, player);
-				can.setPosition(Gdx.graphics.getWidth() + can.getWidth(), rand.nextInt(100, Gdx.graphics.getHeight() - 100));
-				trash.addActor(can);
-			}
+		super.act(delta);
+		
+		if (shouldSpawnTrash()) {
+			Rubbish can = new Rubbish(player);
+			float vertical = MathUtils.random(100, Gdx.graphics.getHeight() - 100);
+			can.setPosition(Gdx.graphics.getWidth() + can.getWidth(), vertical);
+			trash.addActor(can);
 		}
+	}
+	
+	boolean shouldSpawnTrash() {
+		// The amount of trash is limited by the current score.
+		if (trash.getChildren().size >= screen.getScore()) {
+			return false;
+		}
+		// Low chance since this is evaluated each frame.
+		return MathUtils.randomBoolean(0.03f);
 	}
 	
 }

@@ -15,35 +15,36 @@ import es.danirod.gdx25jam.actions.CommonActions;
 
 public class Turtle extends Group {
 
+	/** The sprite to use when the turtle is far. */
 	public static class FarTurtle extends AnimatedImage {
 		public FarTurtle() {
 			super(Orientation.VERTICAL, JamGame.assets.get("farturtle.png"), 0.5f);
 		}
 	}
 
+	/** The sprite to use when the turtle is near. */
 	public static class NearTurtle extends AnimatedImage {
 		public NearTurtle() {
 			super(Orientation.HORIZONTAL, JamGame.assets.get("turtle.png"), 0.5f);
 		}
 	}
 	
-	public Turtle(Axolotl player) {
-		this.player = player;
+	/** The state machine for the turtle. */
+	public static enum TurtleState {
+		Calm, Alert, Reposition, Attack, Calming;
 	}
 	
 	Axolotl player;
-
-	public static enum TurtleState {
-		Calm, Alert, Reposition, Attack, Calming,
+	
+	public TurtleState state = TurtleState.Calm;
+	
+	public Turtle(Axolotl player) {
+		this.player = player;
 	}
-
-	public TurtleState currentState = TurtleState.Calm;
 
 	float nextEval = 10f;
 
-	public void switchToCalm() {
-		Gdx.app.log("Turtle", "Switching to CALM");
-		
+	public void switchToCalm() {	
 		// Switch to the FarTurtle sprite.
 		clearChildren();
 		var turtle = new FarTurtle();
@@ -90,7 +91,6 @@ public class Turtle extends Group {
 		
 		// Reset the alpha, in case it was kept from the old state.
 		getColor().a = 1;
-		Gdx.app.log("Turtle", "Switching to ALERT");
 
 		// Randomly place the turtle outside the screen.
 		int vertical = MathUtils.random(80, 290);
@@ -111,7 +111,6 @@ public class Turtle extends Group {
 	}
 	
 	public void switchToCalming() {
-		Gdx.app.log("Turtle", "Switching to CALMING");
 		getColor().a = 1;
 		addAction(
 				Actions.sequence(
@@ -124,9 +123,7 @@ public class Turtle extends Group {
 	public void switchToReposition() {
 		// Reset the alpha (in case it comes from a previous animation).
 		getColor().a = 1;
-		
-		Gdx.app.log("Turtle", "Switching to REPOSITION");
-		
+				
 		// Pick a random position on the screen where the turtle can be moved to.
 		float horizontal = MathUtils.random(0.5f * Gdx.graphics.getWidth(), 0.75f * Gdx.graphics.getWidth());
 		int vertical = MathUtils.random(80, 290);
@@ -142,7 +139,6 @@ public class Turtle extends Group {
 	}
 
 	public void switchToAttack() {
-		Gdx.app.log("Turtle", "Switching to ATTACK");
 		consecutiveAttacks++;
 		getColor().a = 1;
 		float x = player.getX() + player.getOriginX() / 2, y = player.getY() - player.getOriginY();
@@ -161,20 +157,10 @@ public class Turtle extends Group {
 	}
 	
 	private void tryHit() {
-		Rectangle axo = Pools.obtain(Rectangle.class);
-		Rectangle turtle = Pools.obtain(Rectangle.class);
-		
-		player.getHeadBox(axo);
-		turtle.set(getX(), getY(), getChild(0).getWidth(), getChild(0).getHeight());
-		
-		Gdx.app.log("Turtle", "Axo: " + axo.toString());
-		Gdx.app.log("Turtle", "Turt: " + turtle.toString());
-		if (axo.overlaps(turtle) || turtle.overlaps(axo)) {
+		if (player.isColliding(this)) {
 			player.stun();
 			player.hit();
 		}
-		
-		Pools.freeAll(Array.with(axo, turtle));
 	}
 	
 	int consecutiveAttacks = 0;
@@ -194,7 +180,7 @@ public class Turtle extends Group {
 	
 	TurtleState nextState() {
 		double i = Math.random();
-		switch (currentState) {
+		switch (state) {
 		case Calm:
 			if (i < 0.7f + GameScreen.INSTANCE.getScore() * 0.02f) {
 				return TurtleState.Alert;
@@ -212,13 +198,13 @@ public class Turtle extends Group {
 		case Attack:
 			return TurtleState.Reposition;
 		default:
-			return currentState;
+			return state;
 		}
 	}
 
 	void switchState() {
 		TurtleState next = nextState();
-		this.currentState = next;
+		this.state = next;
 		switch (next) {
 		case Calm:
 			switchToCalm();

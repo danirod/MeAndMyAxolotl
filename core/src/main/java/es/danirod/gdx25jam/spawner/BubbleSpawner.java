@@ -1,32 +1,45 @@
 package es.danirod.gdx25jam.spawner;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import es.danirod.gdx25jam.actor.Bubble;
 
 public class BubbleSpawner extends Actor {
-	
+	/** The bubbles group. (Mostly for z-ordering). */
 	Group bubbles;
 	
-	Actor axolotl;
+	/** The actor that will own the bubbles (they will float on top of the head). */
+	Actor owner;
 	
-	public BubbleSpawner(Group bubbles, Actor axolotl) {
+	/** The coordinates of the mouth, where the bubbles will start. */
+	float mouthX, mouthY;
+	
+	public BubbleSpawner(Group bubbles, Actor owner, float mouthX, float mouthY) {
 		this.bubbles = bubbles;
-		this.axolotl = axolotl;
+		this.owner = owner;
+		this.mouthX = mouthX;
+		this.mouthY = mouthY;
 	}
 
 	@Override
 	public void act(float delta) {
+		super.act(delta);
 		maybeSpawnBubble();
 	}
 	
+	/** Try to spawn a bubble. */
 	void maybeSpawnBubble() {
-    	if (Math.random() < 0.02) {
+    	if (spawnBubble()) {
     		Bubble b = new Bubble();
-    		b.setPosition(axolotl.getX() + axolotl.getOriginX(), axolotl.getY() + axolotl.getOriginY());
+    		b.setPosition(owner.getX() + mouthX, owner.getY() + mouthY);
     		bubbles.addActor(b);
     	}
     }
 
+	/** Can I spawn a bubble? */
+	boolean spawnBubble() {
+		return MathUtils.randomBoolean(0.03f);
+	}
 }

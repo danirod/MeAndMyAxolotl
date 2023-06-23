@@ -1,25 +1,25 @@
 package es.danirod.gdx25jam.spawner;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import es.danirod.gdx25jam.actor.Axolotl;
 import es.danirod.gdx25jam.actor.Egg;
 
 public class EggSpawner extends Actor {
 
-	private Random random = new Random();
-	
+	/** The player that has to pick the egg. */
 	private Axolotl axolotl;
 	
+	/** The group where the axolotls will be placed. */
 	private Group eggGroup;
 	
+	/** An egg is set to spawn. */
 	boolean spawn = false;
-	
-	float spawnIn;
 	
 	public EggSpawner(Group eggGroup, Axolotl axolotl) {
 		this.axolotl = axolotl;
@@ -28,28 +28,30 @@ public class EggSpawner extends Actor {
 	
 	@Override
 	public void act(float delta) {
-		// If there are no eggs to catch, fix it.
-		if (!spawn && eggGroup.getChildren().isEmpty()) {
-			spawn = true;
-			spawnIn = (float) Math.random() * 2f + 2f;
-		}
-		
-		if (spawn) {
-			spawnIn -= delta;
-			if (spawnIn < 0) {
-				spawnEgg();
-				spawn = false;
-			}
+		super.act(delta);
+		if (shouldSpawnAnEgg()) {
+			scheduleNewEgg();
 		}
 	}
 	
-	void spawnEgg() {
-		float speed = random.nextFloat(-240f, -120f);
-		Egg egg = new Egg(speed, axolotl);
-		int y = random.nextInt(100, Gdx.graphics.getHeight() - 100);
-		egg.setY(y);
-		egg.setX(Gdx.graphics.getWidth() + egg.getWidth());
-		eggGroup.addActor(egg);
+	/** Is it time to spawn a new egg? */
+	boolean shouldSpawnAnEgg() {
+		return !spawn && eggGroup.getChildren().isEmpty();
 	}
 	
+	/** Defer the initialization of a new egg. */
+	void scheduleNewEgg() {
+		spawn = true;
+		float timer = MathUtils.random(2f, 5f);
+		Action action = Actions.sequence(Actions.delay(timer), Actions.run(() -> {
+			float speed = MathUtils.random(-240f, -120f);
+			Egg egg = new Egg(speed, axolotl);
+			int y = MathUtils.random(100, Gdx.graphics.getHeight() - 100);
+			egg.setY(y);
+			egg.setX(Gdx.graphics.getWidth() + egg.getWidth());
+			eggGroup.addActor(egg);
+			spawn = false;
+		})); 
+		addAction(action);
+	}
 }
