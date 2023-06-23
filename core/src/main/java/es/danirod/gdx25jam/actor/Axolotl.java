@@ -1,6 +1,7 @@
 package es.danirod.gdx25jam.actor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -22,9 +23,14 @@ public class Axolotl extends Group {
 	
 	int stunnedCombo = 0;
 	
+	/** Seconds until a body part grows again. */
+	float timeToHeal = 40f;
+	
 	Actor stunnedStar;
 	
 	Actor body, patLB, patRB, patLF, patRF;
+	
+	RegrowTimer timer = new RegrowTimer(this);
 	
 	public int getHealth() {
 		return health;
@@ -40,10 +46,26 @@ public class Axolotl extends Group {
 		patLF.setVisible(health >= 2);
 		patRB.setVisible(health >= 3);
 		patRF.setVisible(health >= 4);
+		
+		if (health == 0) {
+			timer.setPosition(patLB.getX(), patLB.getY() + 20f);
+		} else if (health == 1) {
+			timer.setPosition(patLF.getX(), patLF.getY() + 20f);
+		} else if (health == 2) {
+			timer.setPosition(patRB.getX(), patRB.getY() - 20f);
+		} else if (health == 3) {
+			timer.setPosition(patRF.getX(), patRF.getY() - 20f);
+		}
+		timer.setVisible(health < 4);
 	}
 	
 	public void hit() {
+		timeToHeal = 40f;
 		setHealth(getHealth() - 1);
+	}
+	
+	public void heal() {
+		setHealth(getHealth() + 1);
 	}
 	
 	boolean hasRightBody() {
@@ -83,6 +105,11 @@ public class Axolotl extends Group {
     	patRB.addAction(CommonActions.gravitySwimArm());
     	addActor(patRB);
     	
+    	timer = new RegrowTimer(this);
+    	timer.setSize(20, 20);
+    	timer.setPosition(getX(), getY());
+    	timer.setColor(Color.YELLOW);
+    	addActor(timer);
     	
         // setScale(2f);
         // setOrigin(OFFSET_X, OFFSET_Y);
@@ -127,6 +154,17 @@ public class Axolotl extends Group {
     	if (stunnedCombo == 0) {
     		swimUpToMouse(delta);
     	}
+    	if (health < 4) {
+    		checkHealing(delta);
+    	}
+    }
+    
+    void checkHealing(float delta) {    	
+		timeToHeal -= delta;
+		if (timeToHeal < 0) {
+			timeToHeal = 40f;
+			heal();
+		}
     }
     
     void getHeadBox(Rectangle out) {

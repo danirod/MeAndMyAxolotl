@@ -1,6 +1,7 @@
 package es.danirod.gdx25jam.actor;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -52,7 +53,7 @@ public class Egg extends Image {
 			Pools.free(bounds);
 		}
 	}
-	
+		
 	TextureRegion getEggTexture() {
 		Texture tex = JamGame.assets.get("egg.png");
 		TextureRegion[][] regions = TextureRegion.split(tex, tex.getWidth() / 2, tex.getHeight() / 2);

@@ -196,13 +196,13 @@ public class Turtle extends Group {
 		double i = Math.random();
 		switch (currentState) {
 		case Calm:
-			if (i < 0.5f + GameScreen.INSTANCE.getScore() * 0.02f) {
+			if (i < 0.7f + GameScreen.INSTANCE.getScore() * 0.02f) {
 				return TurtleState.Alert;
 			}
 			return TurtleState.Calm;
 		case Alert:
 		case Reposition:
-			if (i < 0.6f - consecutiveAttacks * 0.2f) {
+			if (i < 0.8f - consecutiveAttacks * 0.2f) {
 				return prepareToAttack();
 			} else {
 				return TurtleState.Calming;
