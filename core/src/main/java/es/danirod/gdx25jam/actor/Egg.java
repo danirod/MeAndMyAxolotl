@@ -16,6 +16,8 @@ public class Egg extends Image {
 	private TextureRegion region;
 
 	Axolotl player;
+	
+	boolean picked = false;
 
 	public Egg(float speed, Axolotl player) {
 		this.player = player;
@@ -46,9 +48,9 @@ public class Egg extends Image {
 
 	/** Checks if the egg is being picked. */
 	void checkCollision() {
-		if (player.isColliding(this)) {
-			GameScreen.INSTANCE.pickEgg();
-			remove();
+		if (!picked && player.isColliding(this)) {
+			picked = true;
+			GameScreen.INSTANCE.pickEgg(this);
 		}
 	}
 }

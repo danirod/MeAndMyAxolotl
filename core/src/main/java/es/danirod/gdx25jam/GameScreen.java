@@ -3,24 +3,25 @@ package es.danirod.gdx25jam;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import es.danirod.gdx25jam.actor.Axolotl;
+import es.danirod.gdx25jam.actor.Egg;
+import es.danirod.gdx25jam.actor.PendingEggs;
 import es.danirod.gdx25jam.actor.RepeatingSolid;
 import es.danirod.gdx25jam.actor.Turtle;
-import es.danirod.gdx25jam.actor.Turtle.TurtleState;
-import es.danirod.gdx25jam.spawner.CoralSpawner;
 import es.danirod.gdx25jam.spawner.BubbleSpawner;
+import es.danirod.gdx25jam.spawner.CoralSpawner;
 import es.danirod.gdx25jam.spawner.EggSpawner;
 import es.danirod.gdx25jam.spawner.TrashSpawner;
 
@@ -34,23 +35,32 @@ public class GameScreen implements Screen {
 	
 	private int score;
 	
-	private Label pendingEggsCount;
-		
+	PendingEggs eggsHUD;
+	
 	public int getScore() {
 		return score;
 	}
 	
-	public void pickEgg() {
-		score++;
-		if (score == 15) {
-			// TODO: Go to the ending cinematic.
-		}
-		updateEggsCounter();
+	public void pickEgg(Egg egg) {
+		egg.clearActions();
+		egg.addAction(
+				Actions.sequence(
+						Actions.scaleTo(1.1f, 1.1f),
+						Actions.moveTo(eggsHUD.getX(), eggsHUD.getY(), 0.25f),
+						Actions.run(() -> {
+							score++;
+							updateEggsCounter();
+							if (score == 1) {
+								// TODO: Trigger final sequence.
+							}
+						}),
+						Actions.removeActor()
+				)
+		);
 	}
 	
 	void updateEggsCounter() {
-		String count = "TO PICK: " + (15 - score);
-		pendingEggsCount.setText(count);
+		eggsHUD.update(15 - score);
 	}
 	
 	@Override
@@ -109,11 +119,10 @@ public class GameScreen implements Screen {
 		EggSpawner eggSpawn = new EggSpawner(eggsGroup, xo);
 		stage.addActor(eggSpawn);
 		
-		pendingEggsCount = new Label("", JamGame.labelStyle);
-		pendingEggsCount.setAlignment(Align.topLeft);
-		pendingEggsCount.setPosition(10, Gdx.graphics.getHeight() - 10);
+		eggsHUD = new PendingEggs();
+		eggsHUD.setPosition(5, Gdx.graphics.getHeight() - eggsHUD.getHeight() - 5);
+		stage.addActor(eggsHUD);
 		updateEggsCounter();
-		stage.addActor(pendingEggsCount);
 	}
 	
 	Turtle turtle;
