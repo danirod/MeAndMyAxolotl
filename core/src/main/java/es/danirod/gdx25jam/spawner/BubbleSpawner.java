@@ -40,6 +40,6 @@ public class BubbleSpawner extends Actor {
 
 	/** Can I spawn a bubble? */
 	boolean spawnBubble() {
-		return MathUtils.randomBoolean(0.03f);
+		return owner.isVisible() && MathUtils.randomBoolean(0.03f);
 	}
 }

@@ -1,5 +1,6 @@
 package es.danirod.gdx25jam;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
@@ -58,7 +59,11 @@ public class GameStage extends Stage {
 	
 	float floorHeight;
 	
-	public GameStage() {
+	Game game;
+	
+	public GameStage(Game game) {
+		this.game = game;
+		
 		initBackground();
 		initSpawners();
 		addGroups();
@@ -128,7 +133,17 @@ public class GameStage extends Stage {
 		Action goBack = Actions.moveBy(-Gdx.graphics.getWidth(), 0, 1f, Interpolation.sineIn);
 		Action wave = CommonActions.verticalWave(20f, 1f);
 		Action growAndGoBack = Actions.parallel(grow, goBack, wave);
-		Action animation = Actions.sequence(forward, moveBack, growAndGoBack);
+		Action delay = Actions.delay(1f);
+		Action switchToEnd = Actions.run(() -> {
+			Action fadeOut = Actions.fadeOut(1f);
+			Action switchEnd = Actions.run(() -> {
+				Texture ex = JamGame.assets.get("screens/youwin.png");
+				EndingScreen scr = new EndingScreen(ex);
+				this.game.setScreen(scr);
+			});
+			addAction(Actions.sequence(fadeOut, switchEnd));
+		});
+		Action animation = Actions.sequence(forward, moveBack, growAndGoBack, delay, switchToEnd);
 		axolotl.addAction(animation);
 	}
 }

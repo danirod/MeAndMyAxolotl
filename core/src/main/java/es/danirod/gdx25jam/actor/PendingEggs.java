@@ -1,5 +1,7 @@
 package es.danirod.gdx25jam.actor;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -9,14 +11,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 
 import es.danirod.gdx25jam.JamGame;
 
 public class PendingEggs extends Group implements Disposable {
 
-	private static final int TOTAL = 15;
+	private static final int TOTAL = 1;
 	
 	Image icon;
 	
@@ -44,12 +45,15 @@ public class PendingEggs extends Group implements Disposable {
 	public void draw(Batch batch, float parentAlpha) {
 		batch.end();
 
+		Gdx.gl.glEnable(GL30.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
 		this.renderer.setProjectionMatrix(batch.getProjectionMatrix());
 		this.renderer.setTransformMatrix(batch.getTransformMatrix());
 		this.renderer.begin(ShapeType.Filled);
-		this.renderer.setColor(0, 0, 0, 0.25f);
+		this.renderer.setColor(0, 0, 0, 0.5f * parentAlpha);
 		this.renderer.rect(getX(), getY(), getWidth(), getHeight());
 		this.renderer.end();
+		Gdx.gl.glDisable(GL30.GL_BLEND);
 		
 		batch.begin();
 		super.draw(batch, parentAlpha);

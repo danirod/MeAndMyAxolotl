@@ -53,13 +53,15 @@ public class JamGame extends Game {
     	assets.load("axolotl/lb.png", Texture.class);
     	assets.load("axolotl/rf.png", Texture.class);
     	assets.load("axolotl/rb.png", Texture.class);
+    	assets.load("screens/gameover.png", Texture.class);
+    	assets.load("screens/youwin.png", Texture.class);
     	assets.finishLoading();
     	
     	labelStyle = new LabelStyle();
     	labelStyle.font = assets.get("font.fnt");
     	labelStyle.fontColor = Color.WHITE;
     	
-        setScreen(new GameScreen());
+        setScreen(new GameScreen(this));
     }
 	
 	@Override
@@ -69,3 +71,4 @@ public class JamGame extends Game {
 		assets.dispose();
 	}
 }
+

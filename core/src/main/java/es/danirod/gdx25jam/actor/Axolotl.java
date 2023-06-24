@@ -142,6 +142,7 @@ public class Axolotl extends Group {
 		} else if (health == 4) {
 			timer.setPosition(patRF.getX(), patRF.getY() - 20f);
 		}
+		setVisible(health > 0);
 		timer.setVisible(health < 5);
 	}
 
@@ -167,7 +168,7 @@ public class Axolotl extends Group {
 	}
 
 	/** Is the axolotl ded? */
-	boolean isAlive() {
+	public boolean isAlive() {
 		return health > 0;
 	}
 
@@ -189,7 +190,7 @@ public class Axolotl extends Group {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		if (!isStunned()) {
+		if (!isStunned() && isAlive()) {
 			swimUpToMouse(delta);
 		}
 		if (health < 5) {

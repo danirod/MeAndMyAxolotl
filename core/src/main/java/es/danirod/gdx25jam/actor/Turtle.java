@@ -148,9 +148,7 @@ public class Turtle extends Group {
 	}
 	
 	private void tryHit() {
-		System.out.println("AYUDA");
 		if (player.isColliding(turtle)) {
-			System.out.println("AYUDA DE NUEVO");
 			player.stun();
 			player.hit();
 		}
@@ -179,7 +177,7 @@ public class Turtle extends Group {
 			return TurtleState.Calm;
 		case Alert:
 		case Reposition:
-			if (i < 0.8f - consecutiveAttacks * 0.2f) {
+			if (i < 3.8f - consecutiveAttacks * 0.2f) {
 				return prepareToAttack();
 			} else {
 				return TurtleState.Calming;
