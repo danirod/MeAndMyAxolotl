@@ -1,9 +1,9 @@
 package es.danirod.gdx25jam.actor;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Pools;
 
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.Utils;
@@ -12,6 +12,8 @@ import es.danirod.gdx25jam.actions.ScrollAction;
 public class Rubbish extends Image {
 
 	Axolotl player;
+	
+	Sound sound = JamGame.assets.get("sounds/plastic.ogg");
 	
 	/** Choose some random rubbish texture. */
 	static Texture randomRubbish() {
@@ -35,8 +37,14 @@ public class Rubbish extends Image {
 	/** Checks if the player has hit some trash. */
 	void checkCollision() {
 		if (player.isColliding(this)) {
+			playPlastic();
 			player.stun();
 			remove();
 		}
+	}
+	
+	void playPlastic() {
+		var pitch = MathUtils.random(0.8f, 1.2f);
+		sound.play(1.0f, pitch, 0.0f);
 	}
 }

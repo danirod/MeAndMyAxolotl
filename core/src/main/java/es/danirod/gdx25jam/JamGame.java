@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
@@ -86,6 +87,15 @@ public class JamGame extends Game {
         assets.load("ui/logo.png", Texture.class);
         assets.load("ui/knob.png", Texture.class);
         assets.load("ui/scroll.png", Texture.class);
+        assets.load("sounds/grow.ogg", Sound.class);
+        assets.load("sounds/bite1.ogg", Sound.class);
+        assets.load("sounds/bite2.ogg", Sound.class);
+        assets.load("sounds/bite3.ogg", Sound.class);
+        assets.load("sounds/bite4.ogg", Sound.class);
+        assets.load("sounds/flow.ogg", Sound.class);
+        assets.load("sounds/crunch.mp3", Sound.class);
+        assets.load("sounds/plastic.ogg", Sound.class);
+        assets.load("sounds/pick.ogg", Sound.class);
         return assets;
     }
 

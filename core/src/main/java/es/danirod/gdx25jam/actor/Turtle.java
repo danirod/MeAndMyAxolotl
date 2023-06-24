@@ -1,6 +1,6 @@
 package es.danirod.gdx25jam.actor;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -38,7 +38,15 @@ public class Turtle extends Group {
 	Group far, near;
 	
 	public TurtleState state = TurtleState.Calm;
+
+	Sound[] bites = {
+		JamGame.assets.get("sounds/bite1.ogg", Sound.class),
+		JamGame.assets.get("sounds/bite2.ogg", Sound.class),
+		JamGame.assets.get("sounds/bite3.ogg", Sound.class),
+		JamGame.assets.get("sounds/bite4.ogg", Sound.class)
+	};
 	
+	Sound flow = JamGame.assets.get("sounds/flow.ogg");
 
 	Actor turtle;
 	
@@ -62,6 +70,7 @@ public class Turtle extends Group {
 			bubbleSpawner.remove();
 		turtle = new FarTurtle();
 		far.addActor(turtle);
+		playFlowSound(0.25f);
 
 		// Pick a random position for the turtle in the background.
 		int y = MathUtils.random(120, (int) getStage().getViewport().getWorldHeight() - 120);
@@ -87,6 +96,7 @@ public class Turtle extends Group {
 		
 		bubbleSpawner = new BubbleSpawner(bubblesGroup, turtle, 4, 50);
 		addActor(bubbleSpawner);
+		playFlowSound(1.0f);
 		
 		// Randomly place the turtle outside the screen.
 		int vertical = MathUtils.random(80, 290);
@@ -107,6 +117,7 @@ public class Turtle extends Group {
 	}
 	
 	public void switchToCalming() {
+		playFlowSound(1.0f);
 		turtle.addAction(
 				Actions.sequence(
 						Actions.moveTo(getStage().getViewport().getWorldWidth() + 100, getStage().getViewport().getWorldWidth() / 2, 1f),
@@ -128,6 +139,7 @@ public class Turtle extends Group {
 						Actions.run(() -> switchState())
 				)
 		);
+		playFlowSound(1.0f);
 	}
 
 	public void switchToAttack() {
@@ -149,9 +161,21 @@ public class Turtle extends Group {
 	
 	private void tryHit() {
 		if (player.isColliding(turtle)) {
+			playBiteSound();
 			player.stun();
 			player.hit();
 		}
+	}
+	
+	void playFlowSound(float volume) {
+		float pitch = MathUtils.random(0.9f, 1.1f) * volume;
+		flow.play(0.8f * volume, pitch, 0.0f);
+	}
+	
+	void playBiteSound() {
+		int sound = MathUtils.random(bites.length - 1);
+		float pitch = MathUtils.random(0.75f, 1.25f);
+		bites[sound].play(0.5f, pitch, 0.0f);
 	}
 
 	/**

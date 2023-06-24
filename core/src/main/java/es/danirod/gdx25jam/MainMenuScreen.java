@@ -3,11 +3,11 @@ package es.danirod.gdx25jam;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -55,6 +55,7 @@ public class MainMenuScreen implements Screen {
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+            	JamGame.assets.get("sounds/pick.ogg", Sound.class).play(1.0f, 1.0f, 0.0f);
                 game.transition(stage, new IntroScreen(game));
             }
         });
@@ -68,6 +69,7 @@ public class MainMenuScreen implements Screen {
         howToPlay.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				JamGame.assets.get("sounds/pick.ogg", Sound.class).play(1.0f, 1.0f, 0.0f);
 				Texture howToPlay = JamGame.assets.get("screens/howtoplay.png");
 				game.transition(stage, new EndingScreen(game, howToPlay));
 			}
@@ -82,6 +84,7 @@ public class MainMenuScreen implements Screen {
         credits.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				JamGame.assets.get("sounds/pick.ogg", Sound.class).play(1.0f, 1.0f, 0.0f);
 				game.transition(stage, new CreditsScreen(game));
 			}
         });

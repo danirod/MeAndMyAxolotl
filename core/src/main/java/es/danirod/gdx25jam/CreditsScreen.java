@@ -2,6 +2,7 @@ package es.danirod.gdx25jam;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -59,6 +60,7 @@ public class CreditsScreen implements Screen {
 		backButton.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				JamGame.assets.get("sounds/pick.ogg", Sound.class).play(1.0f, 1.0f, 0.0f);
 				game.transition(stage, new MainMenuScreen(game));
 			}
 		});

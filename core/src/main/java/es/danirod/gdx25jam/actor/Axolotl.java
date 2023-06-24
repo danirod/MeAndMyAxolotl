@@ -1,6 +1,7 @@
 package es.danirod.gdx25jam.actor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Pools;
 
-import es.danirod.gdx25jam.GameScreen;
 import es.danirod.gdx25jam.GameState;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.Utils;
@@ -45,6 +45,8 @@ public class Axolotl extends Group {
 	/** The actor used to display a countdown until the arm is regenerated. */
 	RegrowTimer timer = new RegrowTimer(this);
 
+	Sound regrowSound;
+	
 	public Axolotl(Group bubblesGroup) {
 		addActor(new BubbleSpawner(bubblesGroup, this, 82, 7));
 		
@@ -72,6 +74,8 @@ public class Axolotl extends Group {
 		addActor(stunnedStar);
 
 		setOrigin(83, 11);
+		
+		regrowSound = JamGame.assets.get("sounds/grow.ogg", Sound.class);
 	}
 
 	private Actor bodyTrunk() {
@@ -204,7 +208,13 @@ public class Axolotl extends Group {
 		if (timeToHeal < 0) {
 			heal();
 			timeToHeal = TIME_TO_HEAL;
+			playHealSound();
 		}
+	}
+	
+	void playHealSound() {
+		float pitch = MathUtils.random(0.9f, 1.1f);
+		regrowSound.play(1.0f, pitch, 0f);
 	}
 
 	/** Make the axolotl swim. */

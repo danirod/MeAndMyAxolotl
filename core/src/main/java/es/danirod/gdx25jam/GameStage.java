@@ -1,5 +1,6 @@
 package es.danirod.gdx25jam;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -151,5 +152,6 @@ public class GameStage extends Stage {
 		});
 		Action animation = Actions.sequence(forward, moveBack, growAndGoBack, delay, switchToEnd);
 		axolotl.addAction(animation);
+		JamGame.assets.get("sounds/flow.ogg", Sound.class).play(1.0f, 1.0f, 0.0f);
 	}
 }

@@ -1,7 +1,9 @@
 package es.danirod.gdx25jam.actor;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -18,6 +20,13 @@ public class Egg extends Image {
 	Axolotl player;
 	
 	boolean picked = false;
+	
+	Sound pick = JamGame.assets.get("sounds/crunch.mp3");
+	
+	void playPick() {
+		float pitch = MathUtils.random(0.8f, 1.2f);
+		pick.play(1.0f, pitch, 0.0f);
+	}
 
 	public Egg(float speed, Axolotl player) {
 		this.player = player;
@@ -50,6 +59,7 @@ public class Egg extends Image {
 	void checkCollision() {
 		if (!picked && player.isColliding(this)) {
 			picked = true;
+			playPick();
 			((GameStage) getStage()).pickEgg(this);
 		}
 	}

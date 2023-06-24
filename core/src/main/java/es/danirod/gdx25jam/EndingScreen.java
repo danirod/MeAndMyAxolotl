@@ -3,6 +3,7 @@ package es.danirod.gdx25jam;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -42,6 +43,7 @@ public class EndingScreen implements Screen {
         btn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+            	JamGame.assets.get("sounds/pick.ogg", Sound.class).play(1.0f, 1.0f, 0.0f);
                 game.transition(stage, new MainMenuScreen(game));
             }
         });
@@ -52,6 +54,7 @@ public class EndingScreen implements Screen {
         	@Override
         	public boolean keyDown(InputEvent event, int keycode) {
         		if (keycode == Input.Keys.ENTER || keycode == Input.Keys.ESCAPE) {
+        			JamGame.assets.get("sounds/pick.ogg", Sound.class).play(1.0f, 1.0f, 0.0f);
         			game.transition(stage, new MainMenuScreen(game));
         			return true;
         		}

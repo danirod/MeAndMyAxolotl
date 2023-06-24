@@ -13,12 +13,22 @@ Some of the photos used in the cutscenes are taken from Wikimedia Commons
 Some of the photos used in the cutscenes are taken from Pexels
 - <https://www.pexels.com/photo/white-fish-under-water-2168831/>
 - <https://www.pexels.com/photo/water-bubbles-under-the-sea-62307/>
-      
+     
+Some of the audios used in the game are taken from different providers.
+- Fleshy Bone Break, CC0 from OpenGameArt: <https://opengameart.org/content/fleshy-bone-breaksnap-sfx>
+- 7 Eating Crunches, CC0 from OpenGameArt: <https://opengameart.org/content/7-eating-crunches>
+- Lava splash, CC-BY 3.0 from OpenGameArt: <https://opengameart.org/content/lava-splash>
+- Crunch.wav, CC0 from FreeSound: <https://freesound.org/people/MATRIXXX_/sounds/348112/>     
+- Plastic-Bag crackel, CC-BY 3.0, from FreeSound: <https://freesound.org/people/mboscolo/sounds/212664/>
+- Menu Selection Click, CC-BY 3.0, from OpenGameArt: <https://opengameart.org/content/menu-selection-click>
+
 THANKS
       
 This is my first submission at a jam (finally...)
       
-Thank you to all the people who watched the development process in my Twitch channel. Specially to these people:
+Thank you to all the people who watched the development process in my Twitch channel giving me support, company, feedback and even suggestions.
+
+Specially to these people who used their channel points to acquire their appearance here:
       
 @ckmu32
 @codesectarian
