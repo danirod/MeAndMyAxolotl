@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -36,6 +37,7 @@ public class Egg extends Image {
 		setAlign(Align.center);
 		setScaling(Scaling.fit);
 		setSize(region.getRegionWidth(), region.getRegionHeight());
+		setTouchable(Touchable.enabled);
 
 		addAction(ScrollAction.scrollAndDelete(speed));
 	}
@@ -59,6 +61,7 @@ public class Egg extends Image {
 	void checkCollision() {
 		if (!picked && player.isColliding(this)) {
 			picked = true;
+			setTouchable(Touchable.disabled);
 			playPick();
 			((GameStage) getStage()).pickEgg(this);
 		}

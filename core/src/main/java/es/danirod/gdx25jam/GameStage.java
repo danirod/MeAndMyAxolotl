@@ -66,7 +66,7 @@ public class GameStage extends Stage {
 		this.game = game;
 		
 		// Some variables have to be deferred until we have a viewport.
-		this.axolotl = new Axolotl(bubbles);
+		this.axolotl = new Axolotl(bubbles, eggs);
 		this.turtle = new Turtle(axolotl, swimmingFar, swimmingNear, bubbles);
 		this.counter = new PendingEggs();
 

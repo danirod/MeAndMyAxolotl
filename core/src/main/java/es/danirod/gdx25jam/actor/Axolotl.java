@@ -38,16 +38,24 @@ public class Axolotl extends Group {
 
 	/** Each body part is animated separately. */
 	Actor body, patLB, patRB, patLF, patRF;
+	
+	/** Fake arms that point towards the egg. */
+	Actor fakePatLF, rect, fakePatRF;
 
 	/** An empty actor just for the shake of showing it when debugging. */
 	Actor collisionBox;
 
 	/** The actor used to display a countdown until the arm is regenerated. */
 	RegrowTimer timer = new RegrowTimer(this);
+	
+	/** The eggs, to know if there is an egg around. */
+	Group eggs;
 
 	Sound regrowSound;
 	
-	public Axolotl(Group bubblesGroup) {
+	public Axolotl(Group bubblesGroup, Group eggs) {
+		this.eggs = eggs;
+		
 		addActor(new BubbleSpawner(bubblesGroup, this, 82, 7));
 		
 		patLF = bodyPart("axolotl/lf.png", 49, 27, 24, 1);
@@ -55,6 +63,13 @@ public class Axolotl extends Group {
 		body = bodyTrunk();
 		patRF = bodyPart("axolotl/rf.png", 55, 2, 23, 11);
 		patRB = bodyPart("axolotl/rb.png", 22, 2, 17, 13);
+		
+		fakePatLF = bodyPart("axolotl/lf.png", 49, 27, 24, 1);
+		fakePatRF = bodyPart("axolotl/rf.png", 55, 2, 23, 11);
+		fakePatLF.clearActions();
+		fakePatRF.clearActions();
+		fakePatLF.setVisible(false);
+		fakePatRF.setVisible(false);
 
 		timer = new RegrowTimer(this);
 		timer.setSize(20, 20);
@@ -190,6 +205,36 @@ public class Axolotl extends Group {
 			Pools.free(yourBounds);
 		}
 	}
+	
+	boolean isNearEgg() {
+		if (eggs.getChildren().isEmpty()) {
+			return false;
+		}
+		
+		// Supposedly this should be *THE EGG* because there is only one.
+		Actor actor = eggs.getChild(0);
+		if (!actor.isTouchable()) {
+			return false;
+		}
+		
+		Rectangle rect = null;
+		Vector2 axolotl = null, box = null;
+		try {
+			rect = Pools.obtain(Rectangle.class);
+			axolotl = Pools.obtain(Vector2.class);
+			box = Pools.obtain(Vector2.class);
+
+			Utils.transferStageBounds(collisionBox, rect);
+			Utils.transferPosition(actor, box);
+			box.sub(rect.x, rect.y);
+			System.out.println(box + " " + box.len());
+			return box.len() < 200;
+		} finally {
+			Pools.free(rect);
+			Pools.free(axolotl);
+			Pools.free(box);
+		}
+	}
 
 	@Override
 	public void act(float delta) {
@@ -199,6 +244,44 @@ public class Axolotl extends Group {
 		}
 		if (health < 5) {
 			checkHealing(delta);
+		}
+		updateFollowingArms();
+	}
+	
+	void updateFollowingArms() {
+		boolean near = isNearEgg();
+		patLF.setVisible(health >= 3 && !near);
+		fakePatLF.setVisible(health >= 3 && near);
+		patRF.setVisible(health >= 5 && !near);
+		fakePatRF.setVisible(health >= 5 && near);
+		
+		if (near) {
+			updateFakeArmRotations();
+		}
+	}
+	
+	void updateFakeArmRotations() {
+		Rectangle rect = null;
+		Vector2 egg = null, left = null, right = null;
+		try {
+			rect = Pools.obtain(Rectangle.class);
+			egg = Pools.obtain(Vector2.class);
+			left = Pools.obtain(Vector2.class);
+			right = Pools.obtain(Vector2.class);
+			
+			Utils.transferPosition(eggs.getChild(0), egg);
+			Utils.transferStageBounds(fakePatLF, rect);
+			left.set(rect.x, rect.y).sub(egg);
+			Utils.transferStageBounds(fakePatRF, rect);
+			right.set(rect.x, rect.y).sub(egg);
+			
+			fakePatLF.setRotation(left.angleDeg());
+			fakePatRF.setRotation(right.angleDeg());
+		} finally {
+			Pools.free(egg);
+			Pools.free(left);
+			Pools.free(right);
+			Pools.free(rect);
 		}
 	}
 
