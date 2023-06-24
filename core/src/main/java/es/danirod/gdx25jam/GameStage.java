@@ -1,7 +1,5 @@
 package es.danirod.gdx25jam;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -10,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import es.danirod.gdx25jam.actions.CommonActions;
 import es.danirod.gdx25jam.actor.Axolotl;
@@ -35,13 +34,13 @@ public class GameStage extends Stage {
 
 	/** Group associated with the axolotl bubbles. */
 	Group bubbles = new Group();
-	
+
 	/** The star. */
-	Axolotl axolotl = new Axolotl(bubbles);
+	Axolotl axolotl;
 
 	/** Corals that render in front of the player. */
 	Group coralNear = new Group();
-	
+
 	/** The group where we will add the near turtles. */
 	Group swimmingNear = new Group();
 
@@ -50,44 +49,51 @@ public class GameStage extends Stage {
 
 	/** A group that only exists to count easier the trash. */
 	Group trash = new Group();
-	
+
 	/** The turtle that will attack the player. */
-	Turtle turtle = new Turtle(axolotl, swimmingFar, swimmingNear, bubbles);
+	Turtle turtle;
 
 	/** The counter that indicates how many eggs to pick. */
-	PendingEggs counter = new PendingEggs();
-	
+	PendingEggs counter;
+
 	float floorHeight;
-	
-	Game game;
-	
-	public GameStage(Game game) {
+
+	JamGame game;
+
+	public GameStage(JamGame game, Viewport viewport) {
+		super(viewport);
 		this.game = game;
 		
+		// Some variables have to be deferred until we have a viewport.
+		this.axolotl = new Axolotl(bubbles);
+		this.turtle = new Turtle(axolotl, swimmingFar, swimmingNear, bubbles);
+		this.counter = new PendingEggs();
+
 		initBackground();
 		initSpawners();
 		addGroups();
 	}
-	
+
 	void initBackground() {
 		var water = new Image(JamGame.assets.get("water.png", Texture.class));
 		water.setY(40);
-		water.setHeight(Gdx.graphics.getHeight() - 120);
+		water.setWidth(getViewport().getWorldWidth());
+		water.setHeight(getViewport().getWorldHeight() - 120);
 		water.getColor().a = 0.5f;
 		background.addActor(water);
-		
-		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"), 200);
+
+		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"), 200, getViewport().getWorldWidth());
 		sky.setAlign(Align.bottom);
-		sky.setY(Gdx.graphics.getHeight() - 80);
+		sky.setY(getViewport().getWorldHeight() - 80);
 		sky.getColor().a = 0.5f;
 		background.addActor(sky);
-		
-		var floor = new RepeatingSolid(JamGame.assets.get("floor.png"), 200);
+
+		var floor = new RepeatingSolid(JamGame.assets.get("floor.png"), 200, getViewport().getWorldWidth());
 		floor.setY(0);
 		floorHeight = floor.getHeight();
 		background.addActor(floor);
 	}
-	
+
 	void initSpawners() {
 		addActor(new CoralSpawner(coralFar, coralNear, floorHeight));
 		addActor(new EggSpawner(eggs, axolotl));
@@ -96,22 +102,22 @@ public class GameStage extends Stage {
 		addActor(turtle);
 		turtle.switchToCalm();
 	}
-	
+
 	void addGroups() {
 		addActor(background);
 		addActor(swimmingFar);
 		addActor(coralFar);
 		addActor(axolotl);
-		axolotl.setPosition(20, Gdx.graphics.getHeight() / 2);
+		axolotl.setPosition(20, getViewport().getWorldHeight() / 2);
 		addActor(bubbles);
 		addActor(coralNear);
 		addActor(eggs);
 		addActor(trash);
 		addActor(swimmingNear);
 		addActor(counter);
-		counter.setPosition(10, Gdx.graphics.getHeight() - counter.getHeight() - 10);
+		counter.setPosition(10, getViewport().getWorldHeight() - counter.getHeight() - 10);
 	}
-	
+
 	public void pickEgg(Egg egg) {
 		egg.clearActions();
 		Action updateTimers = Actions.run(() -> {
@@ -122,15 +128,15 @@ public class GameStage extends Stage {
 		});
 		egg.addAction(Actions.sequence(CommonActions.pickEgg(counter), updateTimers));
 	}
-	
+
 	void triggerFinalSequence() {
 		Action forward = Actions.parallel(
-			Actions.moveBy(Gdx.graphics.getWidth() / 3, 0, 1f, Interpolation.sineOut),
+			Actions.moveBy(getViewport().getWorldWidth() / 3, 0, 1f, Interpolation.sineOut),
 			CommonActions.verticalWave(10f, 1f)
 		);
 		Action moveBack = Actions.scaleTo(-1f, 1f);
 		Action grow = Actions.scaleTo(-3f, 3f, 1f, Interpolation.sineIn);
-		Action goBack = Actions.moveBy(-Gdx.graphics.getWidth(), 0, 1f, Interpolation.sineIn);
+		Action goBack = Actions.moveBy(-getViewport().getWorldWidth(), 0, 1f, Interpolation.sineIn);
 		Action wave = CommonActions.verticalWave(20f, 1f);
 		Action growAndGoBack = Actions.parallel(grow, goBack, wave);
 		Action delay = Actions.delay(1f);
@@ -138,7 +144,7 @@ public class GameStage extends Stage {
 			Action fadeOut = Actions.fadeOut(1f);
 			Action switchEnd = Actions.run(() -> {
 				Texture ex = JamGame.assets.get("screens/youwin.png");
-				EndingScreen scr = new EndingScreen(ex);
+				EndingScreen scr = new EndingScreen(this.game, ex);
 				this.game.setScreen(scr);
 			});
 			addAction(Actions.sequence(fadeOut, switchEnd));

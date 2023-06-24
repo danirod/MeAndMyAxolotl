@@ -1,6 +1,5 @@
 package es.danirod.gdx25jam.spawner;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -46,9 +45,9 @@ public class EggSpawner extends Actor {
 		Action action = Actions.sequence(Actions.delay(timer), Actions.run(() -> {
 			float speed = MathUtils.random(-240f, -120f);
 			Egg egg = new Egg(speed, axolotl);
-			int y = MathUtils.random(100, Gdx.graphics.getHeight() - 100);
+			int y = MathUtils.random(100, (int) getStage().getViewport().getWorldHeight() - 100);
 			egg.setY(y);
-			egg.setX(Gdx.graphics.getWidth() + egg.getWidth());
+			egg.setX(getStage().getViewport().getWorldWidth() + egg.getWidth());
 			eggGroup.addActor(egg);
 			spawn = false;
 		})); 

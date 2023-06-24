@@ -19,10 +19,13 @@ public class RepeatingSolid extends Image {
 
 	/** Region, repeated. */
 	TextureRegion region;
+	
+	float worldWidth;
 
-	public RepeatingSolid(Texture texture, float speed) {
+	public RepeatingSolid(Texture texture, float speed, float worldWidth) {
 		assertWrap(texture);
 
+		this.worldWidth = worldWidth;
 		this.speed = speed;
 		this.texture = texture;
 		this.region = new TextureRegion(texture);
@@ -43,7 +46,7 @@ public class RepeatingSolid extends Image {
 	/** The width that the region should have so that it can scroll without gaps. */
 	int closestWidth() {
 		int textureWidth = regionWidth();
-		float repeats = Gdx.graphics.getWidth() / textureWidth;
+		float repeats = worldWidth / textureWidth;
 		int totalRepeats = MathUtils.ceil(repeats);
 		totalRepeats += (requiresDoubleWidth() ? 2 : 1);
 		return textureWidth * totalRepeats;

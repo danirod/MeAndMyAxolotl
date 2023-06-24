@@ -31,7 +31,7 @@ public class ScrollAction extends Action {
 	public boolean act(float delta) {
 		actor.moveBy(speed * delta, 0);
 		if (speed > 0) {
-			return actor.getX() >= Gdx.graphics.getWidth();
+			return actor.getX() >= actor.getStage().getViewport().getWorldWidth();
 		} else {
 			return actor.getRight() < 0;
 		}

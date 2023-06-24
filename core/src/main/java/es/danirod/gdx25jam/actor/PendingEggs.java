@@ -17,30 +17,30 @@ import es.danirod.gdx25jam.JamGame;
 
 public class PendingEggs extends Group implements Disposable {
 
-	private static final int TOTAL = 1;
-	
+	private static final int TOTAL = 15;
+
 	Image icon;
-	
+
 	Label display;
-	
+
 	int pending = TOTAL;
-	
+
 	ShapeRenderer renderer;
-	
+
 	public PendingEggs() {
 		this.renderer = new ShapeRenderer();
-		
+
 		Texture egg = JamGame.assets.get("egg.png", Texture.class);
 		TextureRegion[][] eggs = TextureRegion.split(egg, egg.getWidth() / 2, egg.getHeight() / 2);
 		this.icon = new Image(eggs[0][0]);
 		addActor(this.icon);
-		
-		this.display = new Label("", JamGame.labelStyle);
+
+		this.display = new Label("", JamGame.skin);
 		this.display.setPosition(egg.getWidth() * 0.5f, 4);
 		addActor(this.display);
 		updateDisplay();
 	}
-	
+
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.end();
@@ -54,17 +54,17 @@ public class PendingEggs extends Group implements Disposable {
 		this.renderer.rect(getX(), getY(), getWidth(), getHeight());
 		this.renderer.end();
 		Gdx.gl.glDisable(GL30.GL_BLEND);
-		
+
 		batch.begin();
 		super.draw(batch, parentAlpha);
 	}
-	
+
 	public boolean update(int picked) {
 		this.pending = TOTAL - picked;
 		updateDisplay();
 		return this.pending == 0;
 	}
-	
+
 	void updateDisplay() {
 		CharSequence text = " PENDING: " + pending + "  ";
 		var layout = new GlyphLayout(display.getStyle().font, text);

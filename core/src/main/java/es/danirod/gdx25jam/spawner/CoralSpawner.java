@@ -37,7 +37,7 @@ public class CoralSpawner extends Actor {
 		Coral coral = new Coral();
 		coral.setAlign(Align.bottom);
 		coral.setScale(MathUtils.random(0.5f, 1.5f));
-		coral.setX(Gdx.graphics.getWidth());
+		coral.setX(getStage().getViewport().getWorldWidth());
 		coral.setY(MathUtils.random(floorHeight));
 		
 		if (coral.getScaleY() < 1) {
@@ -49,7 +49,7 @@ public class CoralSpawner extends Actor {
 	
 	boolean shouldSpawnNewCoral() {
 		// Don't spawn a coral if there is already a coral in the right half of the screen.
-		if (getRightestCoral() > Gdx.graphics.getWidth() / 2) {
+		if (getRightestCoral() > getStage().getViewport().getWorldWidth() / 2) {
 			return false;
 		}
 		// Maybe?

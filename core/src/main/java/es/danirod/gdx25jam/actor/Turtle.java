@@ -64,15 +64,15 @@ public class Turtle extends Group {
 		far.addActor(turtle);
 
 		// Pick a random position for the turtle in the background.
-		int y = MathUtils.random(120, Gdx.graphics.getHeight() - 120);
-		turtle.setPosition(Gdx.graphics.getWidth() / 4, y);
+		int y = MathUtils.random(120, (int) getStage().getViewport().getWorldHeight() - 120);
+		turtle.setPosition((int) getStage().getViewport().getWorldWidth() / 4, y);
 
 		// Hide the turtle so that we can show it animated.
 		turtle.setColor(1f, 1f, 1f, 0f);
 		
 		// Start a swimming sequence.
 		turtle.addAction(Actions.sequence(
-				CommonActions.farSwim(Gdx.graphics.getWidth() / 1.5f, 8f),
+				CommonActions.farSwim(getStage().getViewport().getWorldWidth() / 1.5f, 8f),
 				Actions.run(() -> switchState())
 		));
 	}
@@ -90,7 +90,7 @@ public class Turtle extends Group {
 		
 		// Randomly place the turtle outside the screen.
 		int vertical = MathUtils.random(80, 290);
-		turtle.setPosition(Gdx.graphics.getWidth() + turtle.getWidth(), vertical);
+		turtle.setPosition(getStage().getViewport().getWorldWidth() + turtle.getWidth(), vertical);
 		
 		turtle.addAction(
 			Actions.sequence(
@@ -109,7 +109,7 @@ public class Turtle extends Group {
 	public void switchToCalming() {
 		turtle.addAction(
 				Actions.sequence(
-						Actions.moveTo(Gdx.graphics.getWidth() + 100, Gdx.graphics.getWidth() / 2, 1f),
+						Actions.moveTo(getStage().getViewport().getWorldWidth() + 100, getStage().getViewport().getWorldWidth() / 2, 1f),
 						Actions.run(() -> switchState())
 				)
 		);
@@ -117,7 +117,7 @@ public class Turtle extends Group {
 	
 	public void switchToReposition() {
 		// Pick a random position on the screen where the turtle can be moved to.
-		float horizontal = MathUtils.random(0.5f * Gdx.graphics.getWidth(), 0.75f * Gdx.graphics.getWidth());
+		float horizontal = MathUtils.random(0.5f * getStage().getViewport().getWorldWidth(), 0.75f * getStage().getViewport().getWorldWidth());
 		int vertical = MathUtils.random(80, 290);
 		turtle.addAction(
 				Actions.sequence(
@@ -137,7 +137,7 @@ public class Turtle extends Group {
 		
 		turtle.addAction(
 				Actions.sequence(
-						Actions.moveTo(Gdx.graphics.getWidth() / 2, y, 0.25f, Interpolation.circleOut),
+						Actions.moveTo(getStage().getViewport().getWorldWidth() / 2, y, 0.25f, Interpolation.circleOut),
 						Actions.delay(0.25f),
 						Actions.moveTo(x, y, 0.25f, Interpolation.circleOut),
 						Actions.run(() -> tryHit()),
@@ -177,7 +177,7 @@ public class Turtle extends Group {
 			return TurtleState.Calm;
 		case Alert:
 		case Reposition:
-			if (i < 3.8f - consecutiveAttacks * 0.2f) {
+			if (i < 0.8f - consecutiveAttacks * 0.2f) {
 				return prepareToAttack();
 			} else {
 				return TurtleState.Calming;

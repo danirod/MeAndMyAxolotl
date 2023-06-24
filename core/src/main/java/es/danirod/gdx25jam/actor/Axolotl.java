@@ -218,7 +218,8 @@ public class Axolotl extends Group {
 			distance = Pools.obtain(Vector2.class);
 
 			// Get the position of the mouse as a Vector.
-			mouse.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+			mouse.set(Gdx.input.getX(), Gdx.input.getY());
+			getStage().screenToStageCoordinates(mouse);
 			if (mouse.x < getX() + body.getRight()) {
 				mouse.x = getX() + body.getRight();
 			}
@@ -237,8 +238,8 @@ public class Axolotl extends Group {
 			if (getY() < 40 - getOriginY()) {
 				setY(40 - getOriginY());
 			}
-			if (getY() > Gdx.graphics.getHeight() - getHeight() + getOriginY() - 120) {
-				setY(Gdx.graphics.getHeight() - getHeight() + getOriginY() - 120);
+			if (getY() > getStage().getViewport().getWorldHeight() - getHeight() + getOriginY() - 120) {
+				setY(getStage().getViewport().getWorldHeight() - getHeight() + getOriginY() - 120);
 			}
 
 			// Rotate the axolotl so that it looks to the mouse, more realistic. The thing

@@ -41,12 +41,12 @@ public class UbootSpawner extends Actor {
 			return;
 		}
 		uboot = new Image(JamGame.assets.get("uboot.png", Texture.class));
-		uboot.setX(MathUtils.random(0, Gdx.graphics.getWidth() / 2));
-		uboot.setY(MathUtils.random(100, Gdx.graphics.getHeight() - 100));
+		uboot.setX(MathUtils.random(0, getStage().getViewport().getWorldWidth() / 2));
+		uboot.setY(MathUtils.random(100, getStage().getViewport().getWorldHeight() - uboot.getHeight() - 100));
 		uboot.getColor().a = 0;
 		Action animation = Actions.sequence(
 				Actions.delay(MathUtils.random(1f, 2f)),
-				CommonActions.farSwim(Gdx.graphics.getWidth() / 2, 6f),
+				CommonActions.farSwim(getStage().getViewport().getWorldWidth() / 2, 6f),
 				Actions.removeActor()
 		);
 		uboot.addAction(animation);
