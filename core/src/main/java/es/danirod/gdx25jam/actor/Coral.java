@@ -11,7 +11,6 @@ public class Coral extends AnimatedImage {
 			JamGame.assets.get("algae.png"),
 			1f
 		);
-		addAction(ScrollAction.scrollAndDelete(-250f));
 	}
 	
 }

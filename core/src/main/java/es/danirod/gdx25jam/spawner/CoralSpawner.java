@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Align;
 
+import es.danirod.gdx25jam.actions.ScrollAction;
 import es.danirod.gdx25jam.actor.Coral;
 
 public class CoralSpawner extends Actor {
@@ -38,7 +39,9 @@ public class CoralSpawner extends Actor {
 		coral.setAlign(Align.bottom);
 		coral.setScale(MathUtils.random(0.5f, 1.5f));
 		coral.setX(getStage().getViewport().getWorldWidth());
-		coral.setY(MathUtils.random(floorHeight));
+		coral.setY(MathUtils.random(-10, 0));
+		
+		coral.addAction(ScrollAction.scrollAndDelete(-200f * coral.getScaleY()));
 		
 		if (coral.getScaleY() < 1) {
 			backCoral.addActor(coral);
@@ -49,9 +52,9 @@ public class CoralSpawner extends Actor {
 	
 	boolean shouldSpawnNewCoral() {
 		// Don't spawn a coral if there is already a coral in the right half of the screen.
-		if (getRightestCoral() > getStage().getViewport().getWorldWidth() / 2) {
+		/*if (getRightestCoral() > getStage().getViewport().getWorldWidth() / 1.25f) {
 			return false;
-		}
+		}*/
 		// Maybe?
 		return MathUtils.randomBoolean(0.02f);
 	}

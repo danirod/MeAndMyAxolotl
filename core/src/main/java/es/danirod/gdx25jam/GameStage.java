@@ -77,21 +77,18 @@ public class GameStage extends Stage {
 	}
 
 	void initBackground() {
-		var water = new Image(JamGame.assets.get("water.png", Texture.class));
-		water.setY(40);
-		water.setWidth(getViewport().getWorldWidth());
-		water.setHeight(getViewport().getWorldHeight() - 120);
-		water.getColor().a = 0.5f;
+		var water = new RepeatingSolid(JamGame.assets.get("water.png", Texture.class), 50, getViewport().getWorldWidth());
+		water.setY(20);
 		background.addActor(water);
 
-		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"), 200, getViewport().getWorldWidth());
+		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"), 50, getViewport().getWorldWidth());
 		sky.setAlign(Align.bottom);
 		sky.setY(getViewport().getWorldHeight() - 80);
 		sky.getColor().a = 0.5f;
 		background.addActor(sky);
 
-		var floor = new RepeatingSolid(JamGame.assets.get("floor.png"), 200, getViewport().getWorldWidth());
-		floor.setY(0);
+		var floor = new RepeatingSolid(JamGame.assets.get("floor.png"), 100, getViewport().getWorldWidth());
+		floor.setY(-20);
 		floorHeight = floor.getHeight();
 		background.addActor(floor);
 	}

@@ -58,7 +58,7 @@ public class JamGame extends Game {
         assets.load("bubble.png", Texture.class);
         assets.load("floor.png", Texture.class, repeatX);
         assets.load("sky.png", Texture.class, repeatX);
-        assets.load("water.png", Texture.class);
+        assets.load("water.png", Texture.class, repeatX);
         assets.load("algae.png", Texture.class);
         assets.load("egg.png", Texture.class);
         assets.load("turtle.png", Texture.class);

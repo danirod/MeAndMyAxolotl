@@ -17,7 +17,7 @@ import es.danirod.gdx25jam.JamGame;
 
 public class PendingEggs extends Group implements Disposable {
 
-	private static final int TOTAL = 3;
+	private static final int TOTAL = 15;
 
 	Image icon;
 
