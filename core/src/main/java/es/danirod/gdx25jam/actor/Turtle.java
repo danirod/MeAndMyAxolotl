@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import es.danirod.gdx25jam.GameState;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.actions.CommonActions;
+import es.danirod.gdx25jam.spawner.BubbleSpawner;
 
 public class Turtle extends Group {
 
@@ -43,16 +44,22 @@ public class Turtle extends Group {
 	
 	int consecutiveAttacks = 0;
 	
-	public Turtle(Axolotl player, Group far, Group near) {
+	BubbleSpawner bubbleSpawner;
+	Group bubblesGroup;
+	
+	public Turtle(Axolotl player, Group far, Group near, Group bubbles) {
 		this.player = player;
 		this.far = far;
 		this.near = near;
+		this.bubblesGroup = bubbles;
 	}
 
 	public void switchToCalm() {	
 		// Switch to the FarTurtle sprite.
 		if (turtle != null)
 			turtle.remove();
+		if (bubbleSpawner != null)
+			bubbleSpawner.remove();
 		turtle = new FarTurtle();
 		far.addActor(turtle);
 
@@ -77,6 +84,9 @@ public class Turtle extends Group {
 			turtle.remove();
 		turtle = new NearTurtle();
 		near.addActor(turtle);
+		
+		bubbleSpawner = new BubbleSpawner(bubblesGroup, turtle, 4, 50);
+		addActor(bubbleSpawner);
 		
 		// Randomly place the turtle outside the screen.
 		int vertical = MathUtils.random(80, 290);

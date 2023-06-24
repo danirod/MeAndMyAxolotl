@@ -19,6 +19,7 @@ import es.danirod.gdx25jam.Utils;
 import es.danirod.gdx25jam.actions.CommonActions;
 import es.danirod.gdx25jam.actions.ShakeAction;
 import es.danirod.gdx25jam.actor.AnimatedImage.Orientation;
+import es.danirod.gdx25jam.spawner.BubbleSpawner;
 
 public class Axolotl extends Group {
 	public static final float TIME_TO_HEAL = 40f;
@@ -44,7 +45,9 @@ public class Axolotl extends Group {
 	/** The actor used to display a countdown until the arm is regenerated. */
 	RegrowTimer timer = new RegrowTimer(this);
 
-	public Axolotl() {
+	public Axolotl(Group bubblesGroup) {
+		addActor(new BubbleSpawner(bubblesGroup, this, 82, 7));
+		
 		patLF = bodyPart("axolotl/lf.png", 49, 27, 24, 1);
 		patLB = bodyPart("axolotl/lb.png", 22, 24, 17, 1);
 		body = bodyTrunk();

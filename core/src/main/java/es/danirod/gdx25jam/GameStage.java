@@ -32,8 +32,11 @@ public class GameStage extends Stage {
 	/** Corals that render behind the player. */
 	Group coralFar = new Group();
 
+	/** Group associated with the axolotl bubbles. */
+	Group bubbles = new Group();
+	
 	/** The star. */
-	Axolotl axolotl = new Axolotl();
+	Axolotl axolotl = new Axolotl(bubbles);
 
 	/** Corals that render in front of the player. */
 	Group coralNear = new Group();
@@ -48,7 +51,7 @@ public class GameStage extends Stage {
 	Group trash = new Group();
 	
 	/** The turtle that will attack the player. */
-	Turtle turtle = new Turtle(axolotl, swimmingFar, swimmingNear);
+	Turtle turtle = new Turtle(axolotl, swimmingFar, swimmingNear, bubbles);
 
 	/** The counter that indicates how many eggs to pick. */
 	PendingEggs counter = new PendingEggs();
@@ -95,6 +98,7 @@ public class GameStage extends Stage {
 		addActor(coralFar);
 		addActor(axolotl);
 		axolotl.setPosition(20, Gdx.graphics.getHeight() / 2);
+		addActor(bubbles);
 		addActor(coralNear);
 		addActor(eggs);
 		addActor(trash);
