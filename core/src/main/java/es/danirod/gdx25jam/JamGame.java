@@ -16,9 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Pools;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -63,6 +65,7 @@ public class JamGame extends Game {
         assets.load("trash2.png", Texture.class);
         assets.load("trash3.png", Texture.class);
         assets.load("star.png", Texture.class);
+        assets.load("background.png", Texture.class);
         assets.load("font.fnt", BitmapFont.class);
         assets.load("large.fnt", BitmapFont.class);
         assets.load("farturtle.png", Texture.class);
@@ -81,6 +84,8 @@ public class JamGame extends Game {
         assets.load("screens/youwin.png", Texture.class);
         assets.load("ui/button.png", Texture.class);
         assets.load("ui/logo.png", Texture.class);
+        assets.load("ui/knob.png", Texture.class);
+        assets.load("ui/scroll.png", Texture.class);
         return assets;
     }
 
@@ -106,11 +111,18 @@ public class JamGame extends Game {
         var drawableDown = new NinePatchDrawable(patchDown);
         var textButtonStyle = new TextButton.TextButtonStyle(drawableNormal, drawableDown, drawableNormal, large);
         textButtonStyle.fontColor = Color.BLACK;
+        
+        var scrollStyle = new ScrollPane.ScrollPaneStyle();
+        Texture knob = assets.get("ui/knob.png");
+        Texture scroll = assets.get("ui/scroll.png");
+        scrollStyle.vScrollKnob = new TextureRegionDrawable(knob);
+        scrollStyle.vScroll = new TextureRegionDrawable(scroll);
 
         var skin = new Skin();
         skin.add("default", labelStyle);
         skin.add("large", largeLabelStyle);
         skin.add("default", textButtonStyle);
+        skin.add("default", scrollStyle);
         return skin;
     }
 

@@ -32,6 +32,12 @@ public class MainMenuScreen implements Screen {
     public void show() {
         stage = new Stage(new FitViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
+        
+        // Background
+        Image background = new Image(JamGame.assets.get("background.png", Texture.class));
+        background.setBounds(0, 0, 640, 480);
+        background.getColor().a = 0.5f;
+        stage.addActor(background);
 
         // Logo.
         Image logo = new Image(JamGame.assets.get("ui/logo.png", Texture.class));
@@ -67,6 +73,19 @@ public class MainMenuScreen implements Screen {
 			}
         });
         stage.addActor(howToPlay);
+        
+        // Credits
+        TextButton credits = new TextButton("CREDITS", JamGame.skin);
+        credits.setSize(400, 60);
+        credits.setPosition(stage.getViewport().getWorldWidth() / 2 - 200, 50);
+        credits.setColor(Color.valueOf("e5eab8"));
+        credits.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				game.transition(stage, new CreditsScreen(game));
+			}
+        });
+        stage.addActor(credits);
         
         // Quick way to start the game (press ENTER).
         stage.addListener(new InputListener() {

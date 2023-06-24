@@ -1,0 +1,72 @@
+ME AND MY AXOLOTL
+Made with love by danirod
+<https://danirod.itch.io>
+For the libGDX Jam 25
+
+IMAGE CREDITS
+
+Some of the photos used in the cutscenes are taken from Wikimedia Commons
+- File:Mus_Hist_Nat_Lille_Axolotl_12052013_1.jpg
+- File:Ambystoma mexicanum.001 - Aquarium Finisterrae.jpg
+- File:Ambystoma mexicanum at Vancouver Aquarium.jpg
+
+Some of the photos used in the cutscenes are taken from Pexels
+- <https://www.pexels.com/photo/white-fish-under-water-2168831/>
+- <https://www.pexels.com/photo/water-bubbles-under-the-sea-62307/>
+      
+THANKS
+      
+This is my first submission at a jam (finally...)
+      
+Thank you to all the people who watched the development process in my Twitch channel. Specially to these people:
+      
+@ckmu32
+@codesectarian
+@ivantheragingpython
+@Klairm_
+@messer199
+@mata649
+@pacho901
+@altaskur
+@leo_develop
+@cdecompilador
+@e4yttuh
+@dannywolfmx2
+@PachinnWeb
+@jemma1202
+@ssmatiuri
+@likendero
+@ExtrEmi_C
+@Niv3k_El_Pato
+@DHardySD
+@RothioTome
+@Carlos4raujo
+@amstrad05
+@hellsing2030
+@CursosDeDesarrollo
+@MirosoHD
+@Urdet
+@Azzer_41
+@mikelego3ds
+@ccsavlad
+@TheRealBridge
+@ratamalvada
+@a1t0rmenta
+@ChrisVDev
+@viciostv
+@Raupulus
+@nMarulo
+@pythonesa
+@lucionsuag
+@programacion_es
+@Forrest1789
+@Gordon_F_
+
+Also some of my viewers would like me to thank the following entities, who totally don't endorse my game:
+
+The Afordin Company
+The Twitch Streamers Water Foundation
+The Debian Foundation
+The Free Software Foundation
+Onlybarbas
+Python Foundation Spain
