@@ -17,6 +17,7 @@ import es.danirod.gdx25jam.actor.Egg;
 import es.danirod.gdx25jam.actor.PendingEggs;
 import es.danirod.gdx25jam.actor.RepeatingSolid;
 import es.danirod.gdx25jam.actor.Turtle;
+import es.danirod.gdx25jam.actor.Turtle.TurtleState;
 import es.danirod.gdx25jam.spawner.CoralSpawner;
 import es.danirod.gdx25jam.spawner.EggSpawner;
 import es.danirod.gdx25jam.spawner.TrashSpawner;
@@ -153,5 +154,10 @@ public class GameStage extends Stage {
 		Action animation = Actions.sequence(forward, moveBack, growAndGoBack, delay, switchToEnd);
 		axolotl.addAction(animation);
 		JamGame.assets.get("sounds/flow.ogg", Sound.class).play(1.0f, 1.0f, 0.0f);
+		
+		// Disable other collisions.
+		GameState.instance.isFinishing = true;
+		turtle.state = TurtleState.Calming;
+		turtle.switchToCalming();
 	}
 }

@@ -6,6 +6,8 @@ public class GameState {
 	
 	public int score = 0;
 	
+	public boolean isFinishing = false;
+	
 	public static void reset() {
 		instance = new GameState();
 	}

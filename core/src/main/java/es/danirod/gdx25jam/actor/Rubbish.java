@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import es.danirod.gdx25jam.GameState;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.Utils;
 import es.danirod.gdx25jam.actions.ScrollAction;
@@ -36,7 +37,7 @@ public class Rubbish extends Image {
 	
 	/** Checks if the player has hit some trash. */
 	void checkCollision() {
-		if (player.isColliding(this)) {
+		if (!GameState.instance.isFinishing && player.isColliding(this)) {
 			playPlastic();
 			player.stun();
 			remove();
