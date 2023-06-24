@@ -21,14 +21,16 @@ import es.danirod.gdx25jam.actions.ShakeAction;
 import es.danirod.gdx25jam.actor.AnimatedImage.Orientation;
 
 public class Axolotl extends Group {
+	public static final float TIME_TO_HEAL = 40f;
+	
 	/** Current health level. */
-	int health = 4;
+	int health = 5;
 
 	/** Current amount of stun combo. (If you hit multiple trash, you add stuns.) */
 	int stunnedCombo = 0;
 
 	/** Seconds until a body part grows again. */
-	float timeToHeal = 40f;
+	float timeToHeal = TIME_TO_HEAL;
 
 	/** The star that is rendered if the axolotl is currently in stun. */
 	Actor stunnedStar;
@@ -147,7 +149,7 @@ public class Axolotl extends Group {
 
 	/** Shortcut to decrease the health. */
 	public void hit() {
-		timeToHeal = 40f;
+		timeToHeal = TIME_TO_HEAL;
 		setHealth(getHealth() - 1);
 	}
 
@@ -187,7 +189,7 @@ public class Axolotl extends Group {
 		if (!isStunned()) {
 			swimUpToMouse(delta);
 		}
-		if (health < 4) {
+		if (health < 5) {
 			checkHealing(delta);
 		}
 	}
@@ -197,7 +199,7 @@ public class Axolotl extends Group {
 		timeToHeal -= delta;
 		if (timeToHeal < 0) {
 			heal();
-			timeToHeal = 40f;
+			timeToHeal = TIME_TO_HEAL;
 		}
 	}
 

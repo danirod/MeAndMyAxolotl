@@ -34,7 +34,7 @@ public class RegrowTimer extends Actor implements Disposable {
 	
 	/** The arc of the circle. */
 	float getArc() {
-		return (360f / 40f) * player.timeToHeal;
+		return (360f / Axolotl.TIME_TO_HEAL) * player.timeToHeal;
 	}
 	
 	@Override

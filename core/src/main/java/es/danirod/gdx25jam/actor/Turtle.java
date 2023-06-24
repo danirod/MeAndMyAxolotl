@@ -38,15 +38,16 @@ public class Turtle extends Group {
 	
 	public TurtleState state = TurtleState.Calm;
 	
+
+	Actor turtle;
+	
+	int consecutiveAttacks = 0;
+	
 	public Turtle(Axolotl player, Group far, Group near) {
 		this.player = player;
 		this.far = far;
 		this.near = near;
 	}
-
-	float nextEval = 10f;
-	
-	Actor turtle;
 
 	public void switchToCalm() {	
 		// Switch to the FarTurtle sprite.
@@ -144,8 +145,6 @@ public class Turtle extends Group {
 			player.hit();
 		}
 	}
-	
-	int consecutiveAttacks = 0;
 
 	/**
 	 * This function will choose whether the turtle can attack the axolotl
