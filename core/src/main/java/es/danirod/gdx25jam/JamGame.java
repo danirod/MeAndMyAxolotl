@@ -73,7 +73,11 @@ public class JamGame extends Game {
         assets.load("axolotl/lb.png", Texture.class);
         assets.load("axolotl/rf.png", Texture.class);
         assets.load("axolotl/rb.png", Texture.class);
+        assets.load("screens/currents.png", Texture.class);
+        assets.load("screens/flow.png", Texture.class);
         assets.load("screens/gameover.png", Texture.class);
+        assets.load("screens/myeggs.png", Texture.class);
+        assets.load("screens/savethem.png", Texture.class);
         assets.load("screens/youwin.png", Texture.class);
         assets.load("ui/button.png", Texture.class);
         assets.load("ui/logo.png", Texture.class);
