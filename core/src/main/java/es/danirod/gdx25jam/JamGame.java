@@ -15,7 +15,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -76,6 +75,7 @@ public class JamGame extends Game {
         assets.load("screens/currents.png", Texture.class);
         assets.load("screens/flow.png", Texture.class);
         assets.load("screens/gameover.png", Texture.class);
+        assets.load("screens/howtoplay.png", Texture.class);
         assets.load("screens/myeggs.png", Texture.class);
         assets.load("screens/savethem.png", Texture.class);
         assets.load("screens/youwin.png", Texture.class);

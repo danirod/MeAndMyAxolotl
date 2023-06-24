@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -41,17 +42,31 @@ public class MainMenuScreen implements Screen {
         stage.addActor(logo);
 
         // Play button.
-        TextButton button = new TextButton("START GAME", JamGame.skin);
-        button.setSize(400, 200);
-        button.setPosition(stage.getViewport().getWorldWidth() / 2 - 200, 50);
-        button.setColor(Color.valueOf("a8e2ff"));
-        button.addListener(new ChangeListener() {
+        TextButton play = new TextButton("START GAME", JamGame.skin);
+        play.setSize(400, 120);
+        play.setPosition(stage.getViewport().getWorldWidth() / 2 - 200, 200);
+        play.setColor(Color.valueOf("a8e2ff"));
+        play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.transition(stage, new IntroScreen(game));
             }
         });
-        stage.addActor(button);
+        stage.addActor(play);
+        
+        // How to play button.
+        TextButton howToPlay = new TextButton("HOW TO PLAY", JamGame.skin);
+        howToPlay.setSize(400, 60);
+        howToPlay.setPosition(stage.getViewport().getWorldWidth() / 2 - 200, 125);
+        howToPlay.setColor(Color.valueOf("e5eab8"));
+        howToPlay.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				Texture howToPlay = JamGame.assets.get("screens/howtoplay.png");
+				game.transition(stage, new EndingScreen(game, howToPlay));
+			}
+        });
+        stage.addActor(howToPlay);
         
         // Quick way to start the game (press ENTER).
         stage.addListener(new InputListener() {
