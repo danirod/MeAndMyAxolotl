@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import es.danirod.gdx25jam.GameScreen;
+import es.danirod.gdx25jam.GameStage;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.actions.ScrollAction;
 
@@ -50,7 +50,7 @@ public class Egg extends Image {
 	void checkCollision() {
 		if (!picked && player.isColliding(this)) {
 			picked = true;
-			GameScreen.INSTANCE.pickEgg(this);
+			((GameStage) getStage()).pickEgg(this);
 		}
 	}
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Pools;
 
 import es.danirod.gdx25jam.GameScreen;
+import es.danirod.gdx25jam.GameState;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.Utils;
 import es.danirod.gdx25jam.actions.CommonActions;
@@ -221,7 +222,7 @@ public class Axolotl extends Group {
 			distance.set(mouse).sub(axolotl);
 
 			// Move the axolotl so that it tracks the mouse.
-			float speed = 500f + 30 * GameScreen.INSTANCE.getScore();
+			float speed = 500f + 30 * GameState.instance.score;
 			distance.nor().scl(speed * delta);
 			moveBy(0, distance.y);
 

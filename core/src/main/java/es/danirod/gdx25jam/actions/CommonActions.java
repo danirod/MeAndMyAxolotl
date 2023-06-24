@@ -3,6 +3,7 @@ package es.danirod.gdx25jam.actions;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 
@@ -19,6 +20,12 @@ public class CommonActions {
 		Action swingAndAppear = Actions.parallel(swing1, appear);
 		Action swingAndDissapear = Actions.parallel(swing2, dissapear);
 		return Actions.sequence(initialWait, swingAndAppear, swingAndDissapear);
+	}
+	
+	public static Action pickEgg(Actor target) {
+		Action scale = Actions.scaleTo(1.1f, 1.1f, 0.1f);
+		Action move = Actions.moveTo(target.getX(), target.getY(), 0.25f);
+		return Actions.sequence(scale, move);
 	}
 
 	public static Action horizontalWave(float radius, float duration) {

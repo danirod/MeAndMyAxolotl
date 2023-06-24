@@ -16,11 +16,13 @@ import es.danirod.gdx25jam.JamGame;
 
 public class PendingEggs extends Group implements Disposable {
 
+	private static final int TOTAL = 15;
+	
 	Image icon;
 	
 	Label display;
 	
-	int pending = 0;
+	int pending = TOTAL;
 	
 	ShapeRenderer renderer;
 	
@@ -53,9 +55,10 @@ public class PendingEggs extends Group implements Disposable {
 		super.draw(batch, parentAlpha);
 	}
 	
-	public void update(int pending) {
-		this.pending = pending;
+	public boolean update(int picked) {
+		this.pending = TOTAL - picked;
 		updateDisplay();
+		return this.pending == 0;
 	}
 	
 	void updateDisplay() {

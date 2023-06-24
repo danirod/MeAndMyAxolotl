@@ -3,13 +3,11 @@ package es.danirod.gdx25jam.actor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pools;
 
-import es.danirod.gdx25jam.GameScreen;
+import es.danirod.gdx25jam.GameState;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.actions.CommonActions;
 
@@ -36,49 +34,54 @@ public class Turtle extends Group {
 	
 	Axolotl player;
 	
+	Group far, near;
+	
 	public TurtleState state = TurtleState.Calm;
 	
-	public Turtle(Axolotl player) {
+	public Turtle(Axolotl player, Group far, Group near) {
 		this.player = player;
+		this.far = far;
+		this.near = near;
 	}
 
 	float nextEval = 10f;
+	
+	Actor turtle;
 
 	public void switchToCalm() {	
 		// Switch to the FarTurtle sprite.
-		clearChildren();
-		var turtle = new FarTurtle();
+		if (turtle != null)
+			turtle.remove();
+		turtle = new FarTurtle();
+		far.addActor(turtle);
 
 		// Pick a random position for the turtle in the background.
 		int y = MathUtils.random(120, Gdx.graphics.getHeight() - 120);
-		setPosition(Gdx.graphics.getWidth() / 4, y);
+		turtle.setPosition(Gdx.graphics.getWidth() / 4, y);
 
 		// Hide the turtle so that we can show it animated.
-		setColor(1f, 1f, 1f, 0f);
+		turtle.setColor(1f, 1f, 1f, 0f);
 		
 		// Start a swimming sequence.
-		addAction(Actions.sequence(
+		turtle.addAction(Actions.sequence(
 				CommonActions.farSwim(Gdx.graphics.getWidth() / 1.5f, 8f),
 				Actions.run(() -> switchState())
 		));
-		addActor(turtle);
 	}
 
 	public void switchToAlert() {
 		consecutiveAttacks = 0;
 		// Switch to the near turtle sprite.
-		clearChildren();
-		var turtle = new NearTurtle();
-		addActor(turtle);
+		if (turtle != null)
+			turtle.remove();
+		turtle = new NearTurtle();
+		near.addActor(turtle);
 		
-		// Reset the alpha, in case it was kept from the old state.
-		getColor().a = 1;
-
 		// Randomly place the turtle outside the screen.
 		int vertical = MathUtils.random(80, 290);
-		setPosition(Gdx.graphics.getWidth() + turtle.getWidth(), vertical);
+		turtle.setPosition(Gdx.graphics.getWidth() + turtle.getWidth(), vertical);
 		
-		addAction(
+		turtle.addAction(
 			Actions.sequence(
 				Actions.parallel(
 					// Wave the turtle up and down. 
@@ -93,8 +96,7 @@ public class Turtle extends Group {
 	}
 	
 	public void switchToCalming() {
-		getColor().a = 1;
-		addAction(
+		turtle.addAction(
 				Actions.sequence(
 						Actions.moveTo(Gdx.graphics.getWidth() + 100, Gdx.graphics.getWidth() / 2, 1f),
 						Actions.run(() -> switchState())
@@ -103,13 +105,10 @@ public class Turtle extends Group {
 	}
 	
 	public void switchToReposition() {
-		// Reset the alpha (in case it comes from a previous animation).
-		getColor().a = 1;
-				
 		// Pick a random position on the screen where the turtle can be moved to.
 		float horizontal = MathUtils.random(0.5f * Gdx.graphics.getWidth(), 0.75f * Gdx.graphics.getWidth());
 		int vertical = MathUtils.random(80, 290);
-		addAction(
+		turtle.addAction(
 				Actions.sequence(
 						Actions.parallel(
 								Actions.moveTo(horizontal, vertical, 2f, Interpolation.circle),
@@ -122,11 +121,10 @@ public class Turtle extends Group {
 
 	public void switchToAttack() {
 		consecutiveAttacks++;
-		getColor().a = 1;
 		float x = player.getX() + player.getOriginX() / 2, y = player.getY() - player.getOriginY();
-		float currentX = getX(), currentY = getY();
+		float currentX = turtle.getX(), currentY = turtle.getY();
 		
-		addAction(
+		turtle.addAction(
 				Actions.sequence(
 						Actions.moveTo(Gdx.graphics.getWidth() / 2, y, 0.25f, Interpolation.circleOut),
 						Actions.delay(0.25f),
@@ -139,7 +137,9 @@ public class Turtle extends Group {
 	}
 	
 	private void tryHit() {
-		if (player.isColliding(this)) {
+		System.out.println("AYUDA");
+		if (player.isColliding(turtle)) {
+			System.out.println("AYUDA DE NUEVO");
 			player.stun();
 			player.hit();
 		}
@@ -153,7 +153,7 @@ public class Turtle extends Group {
 	 * If the axolotl is far from the turtle, it will reposition instead.
 	 */
 	TurtleState prepareToAttack() {
-		if (Math.abs(getY() - player.getY()) < 100) {
+		if (Math.abs(turtle.getY() - player.getY()) < 100) {
 			return TurtleState.Attack;
 		} else {
 			return TurtleState.Reposition;
@@ -164,7 +164,7 @@ public class Turtle extends Group {
 		double i = Math.random();
 		switch (state) {
 		case Calm:
-			if (i < 0.7f + GameScreen.INSTANCE.getScore() * 0.02f) {
+			if (i < 0.7f + GameState.instance.score * 0.02f) {
 				return TurtleState.Alert;
 			}
 			return TurtleState.Calm;

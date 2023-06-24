@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import es.danirod.gdx25jam.GameScreen;
+import es.danirod.gdx25jam.GameState;
 import es.danirod.gdx25jam.JamGame;
 import es.danirod.gdx25jam.actor.Axolotl;
 import es.danirod.gdx25jam.actor.Rubbish;
@@ -18,13 +19,10 @@ public class TrashSpawner extends Actor {
 	Group trash;
 	
 	Axolotl player;
-	
-	GameScreen screen;
-	
-	public TrashSpawner(Group trash, Axolotl player, GameScreen screen) {
+		
+	public TrashSpawner(Group trash, Axolotl player) {
 		this.trash = trash;
 		this.player = player;
-		this.screen = screen;
 	}
 	
 	@Override
@@ -41,7 +39,7 @@ public class TrashSpawner extends Actor {
 	
 	boolean shouldSpawnTrash() {
 		// The amount of trash is limited by the current score.
-		if (trash.getChildren().size >= screen.getScore()) {
+		if (trash.getChildren().size >= GameState.instance.score) {
 			return false;
 		}
 		// Low chance since this is evaluated each frame.
