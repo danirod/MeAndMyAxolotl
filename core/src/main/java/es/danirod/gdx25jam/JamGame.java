@@ -69,6 +69,7 @@ public class JamGame extends Game {
         assets.load("background.png", Texture.class);
         assets.load("font.fnt", BitmapFont.class);
         assets.load("large.fnt", BitmapFont.class);
+        assets.load("silkscreen.fnt", BitmapFont.class);
         assets.load("farturtle.png", Texture.class);
         assets.load("uboot.png", Texture.class);
         assets.load("axolotl/body.png", Texture.class);
@@ -87,6 +88,8 @@ public class JamGame extends Game {
         assets.load("ui/logo.png", Texture.class);
         assets.load("ui/knob.png", Texture.class);
         assets.load("ui/scroll.png", Texture.class);
+        assets.load("trajinera1.png", Texture.class);
+        assets.load("trajinera2.png", Texture.class);
         assets.load("sounds/grow.ogg", Sound.class);
         assets.load("sounds/bite1.ogg", Sound.class);
         assets.load("sounds/bite2.ogg", Sound.class);
@@ -102,6 +105,7 @@ public class JamGame extends Game {
     Skin prepareSkin() {
         var font = assets.get("font.fnt", BitmapFont.class);
         var large = assets.get("large.fnt", BitmapFont.class);
+        var silk = assets.get("silkscreen.fnt", BitmapFont.class);
 
         var labelStyle = new LabelStyle();
         labelStyle.font = font;
@@ -110,6 +114,10 @@ public class JamGame extends Game {
         var largeLabelStyle = new LabelStyle();
         largeLabelStyle.font = large;
         largeLabelStyle.fontColor = Color.WHITE;
+        
+        var silkLabelStyle = new LabelStyle();
+        silkLabelStyle.font = silk;
+        silkLabelStyle.fontColor = Color.WHITE;
 
         Texture button = assets.get("ui/button.png");
         TextureRegion buttonNormal = new TextureRegion(button, 0, 0, 64, 64);
@@ -131,6 +139,7 @@ public class JamGame extends Game {
         var skin = new Skin();
         skin.add("default", labelStyle);
         skin.add("large", largeLabelStyle);
+        skin.add("silk", silkLabelStyle);
         skin.add("default", textButtonStyle);
         skin.add("default", scrollStyle);
         return skin;
@@ -150,4 +159,5 @@ public class JamGame extends Game {
         stageToFadeOut.addAction(fadeOutThenSwitch);
     }
 }
+
 

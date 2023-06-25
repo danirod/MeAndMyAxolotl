@@ -227,7 +227,6 @@ public class Axolotl extends Group {
 			Utils.transferStageBounds(collisionBox, rect);
 			Utils.transferPosition(actor, box);
 			box.sub(rect.x, rect.y);
-			System.out.println(box + " " + box.len());
 			return box.len() < 200;
 		} finally {
 			Pools.free(rect);
@@ -331,8 +330,8 @@ public class Axolotl extends Group {
 			if (getY() < 40 - getOriginY()) {
 				setY(40 - getOriginY());
 			}
-			if (getY() > getStage().getViewport().getWorldHeight() - getHeight() + getOriginY() - 120) {
-				setY(getStage().getViewport().getWorldHeight() - getHeight() + getOriginY() - 120);
+			if (getY() > getStage().getViewport().getWorldHeight() - getHeight() + getOriginY() - 140) {
+				setY(getStage().getViewport().getWorldHeight() - getHeight() + getOriginY() - 140);
 			}
 
 			// Rotate the axolotl so that it looks to the mouse, more realistic. The thing

@@ -31,7 +31,7 @@ public class TrashSpawner extends Actor {
 		
 		if (shouldSpawnTrash()) {
 			Rubbish can = new Rubbish(player);
-			float vertical = MathUtils.random(100, getStage().getViewport().getWorldHeight() - 100);
+			float vertical = MathUtils.random(100, getStage().getViewport().getWorldHeight() - 120);
 			can.setPosition(getStage().getViewport().getWorldWidth() + can.getWidth(), vertical);
 			trash.addActor(can);
 		}

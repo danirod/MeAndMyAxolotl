@@ -1,5 +1,6 @@
 package es.danirod.gdx25jam;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
@@ -7,17 +8,18 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import es.danirod.gdx25jam.actions.CommonActions;
 import es.danirod.gdx25jam.actor.Axolotl;
+import es.danirod.gdx25jam.actor.Boat;
 import es.danirod.gdx25jam.actor.Egg;
 import es.danirod.gdx25jam.actor.PendingEggs;
 import es.danirod.gdx25jam.actor.RepeatingSolid;
 import es.danirod.gdx25jam.actor.Turtle;
 import es.danirod.gdx25jam.actor.Turtle.TurtleState;
+import es.danirod.gdx25jam.spawner.BoatSpawner;
 import es.danirod.gdx25jam.spawner.CoralSpawner;
 import es.danirod.gdx25jam.spawner.EggSpawner;
 import es.danirod.gdx25jam.spawner.TrashSpawner;
@@ -39,6 +41,9 @@ public class GameStage extends Stage {
 
 	/** The star. */
 	Axolotl axolotl;
+	
+	/** Boats that are on top of the water. */
+	Group boats = new Group();
 
 	/** Corals that render in front of the player. */
 	Group coralNear = new Group();
@@ -83,7 +88,7 @@ public class GameStage extends Stage {
 
 		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"), 50, getViewport().getWorldWidth());
 		sky.setAlign(Align.bottom);
-		sky.setY(getViewport().getWorldHeight() - 80);
+		sky.setY(getViewport().getWorldHeight() - 100);
 		sky.getColor().a = 0.5f;
 		background.addActor(sky);
 
@@ -98,12 +103,14 @@ public class GameStage extends Stage {
 		addActor(new EggSpawner(eggs, axolotl));
 		addActor(new TrashSpawner(trash, axolotl));
 		addActor(new UbootSpawner(swimmingFar));
+		addActor(new BoatSpawner(boats));
 		addActor(turtle);
 		turtle.switchToCalm();
 	}
 
 	void addGroups() {
 		addActor(background);
+		addActor(boats);
 		addActor(swimmingFar);
 		addActor(coralFar);
 		addActor(axolotl);

@@ -99,7 +99,7 @@ public class Turtle extends Group {
 		playFlowSound(1.0f);
 		
 		// Randomly place the turtle outside the screen.
-		int vertical = MathUtils.random(80, 290);
+		int vertical = MathUtils.random(80, 270);
 		turtle.setPosition(getStage().getViewport().getWorldWidth() + turtle.getWidth(), vertical);
 		
 		turtle.addAction(
@@ -129,7 +129,7 @@ public class Turtle extends Group {
 	public void switchToReposition() {
 		// Pick a random position on the screen where the turtle can be moved to.
 		float horizontal = MathUtils.random(0.5f * getStage().getViewport().getWorldWidth(), 0.75f * getStage().getViewport().getWorldWidth());
-		int vertical = MathUtils.random(80, 290);
+		int vertical = MathUtils.random(80, 270);
 		turtle.addAction(
 				Actions.sequence(
 						Actions.parallel(

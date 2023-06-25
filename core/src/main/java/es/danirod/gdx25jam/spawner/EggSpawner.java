@@ -45,7 +45,7 @@ public class EggSpawner extends Actor {
 		Action action = Actions.sequence(Actions.delay(timer), Actions.run(() -> {
 			float speed = MathUtils.random(-240f, -120f);
 			Egg egg = new Egg(speed, axolotl);
-			int y = MathUtils.random(100, (int) getStage().getViewport().getWorldHeight() - 100);
+			int y = MathUtils.random(100, (int) getStage().getViewport().getWorldHeight() - 120);
 			egg.setY(y);
 			egg.setX(getStage().getViewport().getWorldWidth() + egg.getWidth());
 			eggGroup.addActor(egg);
