@@ -1,6 +1,5 @@
 package es.danirod.gdx25jam;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import es.danirod.gdx25jam.actions.CommonActions;
 import es.danirod.gdx25jam.actor.Axolotl;
-import es.danirod.gdx25jam.actor.Boat;
 import es.danirod.gdx25jam.actor.Egg;
 import es.danirod.gdx25jam.actor.PendingEggs;
 import es.danirod.gdx25jam.actor.RepeatingSolid;
@@ -82,17 +80,16 @@ public class GameStage extends Stage {
 	}
 
 	void initBackground() {
-		var water = new RepeatingSolid(JamGame.assets.get("water.png", Texture.class), 50, getViewport().getWorldWidth());
+		var water = new RepeatingSolid(JamGame.assets.get("water.png", Texture.class), 50, getViewport().getWorldWidth(), 480);
 		water.setY(20);
 		background.addActor(water);
 
-		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"), 50, getViewport().getWorldWidth());
+		var sky = new RepeatingSolid(JamGame.assets.get("sky.png"), 50, 640, 100);
 		sky.setAlign(Align.bottom);
 		sky.setY(getViewport().getWorldHeight() - 100);
-		sky.getColor().a = 0.5f;
 		background.addActor(sky);
 
-		var floor = new RepeatingSolid(JamGame.assets.get("floor.png"), 100, getViewport().getWorldWidth());
+		var floor = new RepeatingSolid(JamGame.assets.get("floor.png"), 100, 640, 40);
 		floor.setY(-20);
 		floorHeight = floor.getHeight();
 		background.addActor(floor);

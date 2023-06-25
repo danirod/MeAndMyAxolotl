@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -83,7 +84,7 @@ public class Boat extends Group {
 			pendingNames.addAll(Arrays.asList(names));
 		}
 		
-		List<String> array = pendingNames.stream().toList();
+		List<String> array = pendingNames.stream().collect(Collectors.toList());
 		String random = array.get(MathUtils.random(array.size() - 1));
 		pendingNames.remove(random);
 		return random;

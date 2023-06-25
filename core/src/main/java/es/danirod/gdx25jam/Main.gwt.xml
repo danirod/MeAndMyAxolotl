@@ -2,5 +2,7 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.10.0//EN" "http://www.gwtproject.org/doctype/2.10.0/gwt-module.dtd">
 <module>
   <source path="" />
-
+  <extend-configuration-property name="gdx.reflect.include" value="es.danirod.gdx25jam.actions" />
+  <extend-configuration-property name="gdx.reflect.include" value="es.danirod.gdx25jam.actor" />
+  <extend-configuration-property name="gdx.reflect.include" value="es.danirod.gdx25jam.spawner" />
 </module>

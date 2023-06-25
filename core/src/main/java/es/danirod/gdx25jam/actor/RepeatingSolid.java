@@ -21,9 +21,13 @@ public class RepeatingSolid extends Image {
 	TextureRegion region;
 	
 	float worldWidth;
+	
+	int texHeight;
 
-	public RepeatingSolid(Texture texture, float speed, float worldWidth) {
+	public RepeatingSolid(Texture texture, float speed, float worldWidth, int texHeight) {
 		assertWrap(texture);
+		
+		this.texHeight = texHeight;
 
 		this.worldWidth = worldWidth;
 		this.speed = speed;
@@ -32,7 +36,7 @@ public class RepeatingSolid extends Image {
 		this.region.setRegionWidth(closestWidth());
 
 		setDrawable(new TextureRegionDrawable(this.region));
-		setHeight(texture.getHeight());
+		setHeight(texHeight);
 		setWidth(this.region.getRegionWidth());
 	}
 
